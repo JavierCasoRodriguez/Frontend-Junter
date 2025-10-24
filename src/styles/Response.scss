@@ -1,0 +1,28 @@
+@import './GlobalStyles.scss';
+//RESPONSE;
+.content-message {
+    display:flex;
+    flex-grow:1;
+    flex-direction: column;
+    span{
+        width:90%;
+        padding:2px 5px 2px 5px;
+        position:relative;
+        top:12px;
+        left:9px;
+        font-size: 14px;
+    }
+    .text-message-more{
+        // background-color: red;
+        width:90%;
+        //diseño reponsive que no tiene el text
+        position:relative;
+        top:50px;
+
+     
+
+
+    }
+}
+
+

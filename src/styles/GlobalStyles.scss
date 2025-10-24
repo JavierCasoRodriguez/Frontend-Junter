@@ -1,0 +1,755 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Rowdies:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+//ESTILOS GLOBALES 
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+$orange:#FFA500;
+$lightorange:rgb(242, 194, 105); 
+$lightblack:rgba(0, 0, 0, 0.764);
+$green:rgb(39, 198, 39);
+
+
+
+
+//BOTON SEGUIR;
+.foll-options-seguir-bg-orange{
+    margin-left:auto;
+    background-color: $lightorange;
+    color:#fff;
+    height:25px;
+    // width:44px;
+    // width:44px;
+    border-radius:8px;
+    padding:2px 3px 2px;
+    font-family:'lexend';
+    // position:relative;
+    cursor:pointer;
+    font-size:13px;
+    &:hover{background-color: $orange}
+}
+
+.follow-sug-active{
+    @extend .foll-options-seguir-bg-orange;
+    width:63px;
+    background-color:$orange;
+}
+
+//ESTILOS DE  boton Close
+.cls-i-all{
+    position: relative;
+    // left:-23px;
+    top:5px;
+    cursor:pointer;
+    height:40%;
+    width:20px;
+    color:$lightblack;
+    border-radius:50px;
+    &:hover{
+        background-color: whitesmoke;
+    }
+}
+
+.btn-enviar-main{
+    // width:30%;
+    // margin-top:2px;
+    background-color: white;
+    border:1px solid $orange;
+    border-radius:8px;
+    color:$orange;
+    font-family: 'lexend';
+    margin-left:auto;
+    cursor:pointer;
+    padding:3px;
+    &:hover{
+        background-color: $orange;
+        color:#fff;
+    }
+}
+
+
+//estilos del sugerencias
+.usr-mainpro{
+    height:30%;
+    padding:10px 0 0 3px;
+    width:100%;
+    // background-color: violet;
+    // border:1px solid pink;
+    display: flex;
+    cursor:pointer;
+    border-radius:8px;
+    justify-content: space-between;
+    padding-right:6px;
+
+    &:hover{background-color: whitesmoke}
+
+    .main-header-sugg{
+        display:flex;
+        // background-color: red;
+      
+        img{
+            width:25px;
+            height:25px;
+            border-radius:10px;
+            position:relative;
+            top:-1px;
+            
+        }
+        h3{
+            z-index:0;
+            font-size:12px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            top:-8px;
+            position: relative;
+            left:8px;
+
+            
+        }
+    }
+    span{
+        // display:flex;
+        // margin-right:auto;
+        // font-family: 'Lexend';
+        
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size:12px;
+        font-style: italic;
+        color:#e6a112;
+        // position:absolute;
+        // right:20px;
+        // margin-top:2px;
+    }
+
+}
+
+
+.trednmain-optsrcq{
+    width:100%;
+    height:50px;
+    list-style:none;
+   
+    // border-bottom:2px solid gray;
+    padding:0 5px 4px 6px;
+    display:flex;
+    align-items: center;
+    cursor:pointer;
+    border-radius:8px;
+
+    &:hover{background-color: whitesmoke}
+    .iterative-index-position{
+        position:relative;
+        top:-9px;
+        margin-left:3px;
+        margin-right:8px;
+        color:$lightblack;
+        
+    }
+    h3{
+        font-size:13px;
+        color:#271e1e;
+        // font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-family: 'Lexend';
+    }
+    .count-trends{
+        font-size:12px;
+        // font-style:italic;
+        position: relative;
+        top:-11px;
+        left:6px;
+        // color:$lightblack;
+        color:gray;
+
+
+
+    }
+ }
+
+
+ //estilos principal de los h4 del search Persons y Trends
+ .srchq-nav-h4{
+    font-family:'Lexend'; 
+    font-weight: 400;
+    font-size:16px;
+    position:relative;
+    top:-4px;
+ }
+
+.input-main-globalStyles{
+    //Haría referencia  a #inputText;
+    width:80%;
+    min-height:30px;
+    border-radius:8px;
+    border:1px solid lightgray;
+    // box-shadow: 0 0 2px rgba(0, 0, 0, 0.01);
+    padding:0 6px 0;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    // font-family: 'Lexend';
+    font-size:13px;
+    &:focus{
+        outline: none;
+    }
+    &::placeholder{
+        position: relative;
+        left:2px;
+    }
+}
+
+
+
+.main-generalCom-q-srchq{
+    width:100%;
+    border-radius:8px;
+    height:40px;
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover{background-color:whitesmoke;}
+    .main-generalCom-content-srch{    
+        display:flex;
+        width:95%;
+        // margin:auto;
+    div{
+        width:8%;
+        height:100%;
+        display:flex;
+        position:relative;
+        top:8px;
+       .srch-icon-search{
+        align-items: center;
+        width:60%;
+        height:60%;
+        color:$lightblack;
+        // position:relative;
+        // top:5px;
+       }
+       .srch-icon-localities{
+        @extend .srch-icon-search;
+        width:50%;
+        height:50%;
+       }
+       img{
+        width:22px;
+        height:22px;
+        position:relative;
+        top:2px;
+        left:5px;
+       }
+
+    }
+    h4{
+     font-size:13px;
+    //  font-weight:500;
+    //  font-family: Verdana, Geneva, Tahoma, sans-serif;
+     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+     color:#000;
+     position:relative;
+     top:-5px;
+     left:-3px;
+
+    }
+
+    .icon-srch-diverse-query{
+        height:30px;
+        width:35px;
+        // background-color: red;
+
+    
+        svg{
+            font-size:20px;
+            margin-left:3px;
+            margin-top:2px;            
+        }
+    
+}
+}
+.container-icon-main-search{
+    width:5%;
+    height:100%;
+    .main-generalCom-q-srchq-ico-close{
+            display:flex;
+            width:27px;
+            height:27px;
+            border-radius:20px;
+            padding:3px;
+            color:$lightblack;
+            &:hover{
+                color:#000;
+                font-weight:600;
+            }
+        }
+
+}
+}
+
+
+
+
+  
+
+
+
+
+
+
+  //Navbar => QuerySearch,Post...
+  .query-srch-options-var-navbar{
+    // background-color: violet;
+    height:10%;
+    display:flex;
+    align-items: center;
+    padding:5px;
+    // background-color: whitesmoke;
+    background-color: #ffffff;
+    box-shadow: 0 0 5px rgb(0, 0, 0, 0.05);
+    svg{
+        width:24px;
+        height:24px;
+        border-radius:20px;
+        padding:2px;
+        cursor:pointer;
+        &:hover{
+            background-color: whitesmoke;}
+    }
+    h4{
+        position:relative;
+        left:30px;
+        font-family: 'Lexend';
+        font-size:15px;
+    }
+  }
+
+
+  //Aside styles => contenedor de localidades => pais,region,ciudad;
+  .nav-localities-extension-main-styles{
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    position:absolute;
+    top:75px;
+    left:70px;
+    min-height:190px;
+    width:103px;
+    border:1px solid $orange;
+    border-radius:8px;
+    text-align:center;
+    z-index:100;
+    background-color: #ffffff;
+    &.visible{opacity:1}
+    > div{
+     width:100%;
+     cursor:pointer;
+     h4{
+             color:$orange;
+             font-family:'Rowdies';
+             height:25%;
+             font-weight:200;
+             padding:10px;
+             font-size:14px;
+             &:hover{ font-weight:800}
+     }
+   }
+}
+
+
+//Post => Structure => message.jsx
+//HEADER
+// 1 HEADER 
+header{
+    display:flex;
+    align-items: flex-start;
+    // height: 60px;
+    height:30px;
+    // background-color: blue;
+}
+.main-header{
+    width:10%;
+    height:20%;
+    display:block;
+    text-align: left;
+    padding:2px 2px 0;
+    
+    .prf-img{
+        height:20px;
+        width:20px;
+        position:relative;
+        left:10px;
+        object-fit: cover;
+        &.formatted{
+            height:23px;
+            width:23px;
+            position:relative;
+            // top:-3px;
+            border-radius:25px;
+        }
+    
+    // esto era lo que se hacia con css
+    }
+ 
+    .username{
+        font-size:10px;
+        position:relative;
+        top:-10px;
+        left:1px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        color:black;
+        cursor:pointer;
+        width:60px;
+        &:hover{ text-decoration: underline;}
+       
+    }
+}
+
+
+
+
+
+
+.coloured-item{
+    // background-color: red;
+    color: #1877F2;
+    cursor:pointer;
+    z-index:999;
+    &:hover{
+        text-decoration: underline;
+        // font-weight:600;
+    }
+}
+//opciones
+
+.options-header-post{
+    font-size:11px;
+    width:75%;
+    display:flex;
+    text-align: center;
+    // background-color: red;
+    .selected-header-item{
+        flex:1;
+        display: flex;
+        justify-content: center; /* Centra el contenido horizontalmente */
+        align-items: center; /* Centra el contenido verticalmente */
+        //Estilos reposts;
+        &.reposted{
+            font-family: 'Lexend';
+            // color:gray;
+            color:$lightblack;
+            position:relative;
+            top:1px;
+            &:hover{
+                text-decoration: underline;
+            }
+            svg{
+                position:relative;
+                left:-2px;
+                font-size:14px;
+            }
+        }
+       
+    }
+
+    
+    .reply-option{
+        color:#1877F2;
+        font-family:'lEXEND';
+        // position: relative;
+        // margin:auto;
+        width:100%;
+        text-align: center;
+        // top:-10px;
+        &:hover{
+            text-decoration: underline;
+        }
+        &.quotes{
+            top:2px;
+            left:25px;
+            cursor:pointer;
+        }
+        &.response{
+            left:45px;
+            top:2px;
+            font-size:10px;
+        }
+    }
+    //estado
+.state{
+    //opcion 1 de estilo
+    // por ahora este 
+    //ihual hay algun tipo de letra que pegue mejor 
+    margin:auto;
+    font-size:12px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight:300;
+    // font-style:italic;
+    position:relative;
+    left:5%;
+    // left:50%;
+    //recomendable ponerle un overflow auto por si hay estados muy largos;
+
+    //opcion 2 de estilo
+    // color:rgba(0, 0, 0, 0.864);
+    // /* ojo el color negro raro  */
+    // font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    // text-align: center;
+    // position: relative;
+    // top:-9px;
+    // /* con el media hay que ajustarlo un poco la position:top hacia arriba */
+    // /* left:140px; esta puede ser la medida al minimizar la pantalla */
+    // font-style: italic;
+    // font-weight:400;
+    // font-size: 14px;
+    // width:70%;
+    // margin:auto;
+    // /* margin-left:160px; */
+
+
+   
+}
+}
+
+.options-message{
+   
+   width:22%;
+   padding:2px;
+// width:18%; before localidad
+   height: 30px;
+   display:flex;
+   flex-direction:row;
+//    margin-left:auto;
+   position:absolute;
+   right:0;
+   text-align: center;
+//    z-index:999; realmente no haría falta que tuviese 
+
+   
+//    border:1px solid green;
+
+
+
+.parent-aside-options{
+width:80%;
+display:flex;
+justify-content: space-between;
+// background-color: yellow;
+}
+
+.cont-date{
+    // max-width:90%;
+    // min-width:60%;
+    width:100%;
+    text-align: right;
+    // background-color: green;
+    .date-default-post{
+        // border:1px solid whitesmoke;
+        font-size:11px;
+        font-family:'lexend';
+        // color:rgb(171, 166, 166);
+        color:lightgray;
+        color:rgb(200, 193, 193)
+    
+    
+    }
+}
+
+.cont-more-vert{
+    width:10%;
+    // background-color: violet;
+
+}
+.more-vert-icon{
+    width:23px;
+    height:23px;
+    font-size: 13px;
+    padding:4px 0 0;
+    border-radius:25px;
+    text-align: center;
+    position:relative;
+    left:8px;
+    cursor:pointer;
+   &:hover{ background-color: whitesmoke;}    
+}
+
+}   
+
+.localities-render-type{
+    width:50%;
+    text-align: right;
+    margin-right:5px;
+    position:relative;
+    &.long{
+        // background-color: red;
+        left: 35px;
+    }
+    &.quotes{
+        right:32px;
+    }
+    &.response{
+        right:5px;
+        padding-top:4px;
+        padding-right:4px;
+        label{
+            font-size:10px;
+        }
+    }
+    label{
+        // font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-family:'Lexend';
+        font-size:11px;
+        color:rgb(200, 193, 193);
+        color:lightgray;
+        cursor:pointer;
+        &:hover{
+            color:orange;
+        }
+    }
+}
+.foll-add-main{
+    font-size:15px;
+    position:relative;
+    bottom:2px;
+    left:2px;
+    &.active{
+     //OPCION A
+     color:lightgray;
+     // OPCION B
+     // color:$lightorange;
+     //OPCION C
+     // color:rgb(33, 154, 33);
+     font-size:18px;
+     transition: 0.3s ease-in-out;
+     // color:rgba(0, 106, 255, 0.697);
+    }
+
+ }
+//este de aqui en verda es otro COMPONENTE pero por ahora no hace falta
+.more-options{
+    &.hidden{
+        transform: translateY(-5%); /* Oculto */
+        opacity:0;
+        position:absolute;
+      
+        bottom:10px;
+        border-radius:8px;
+        border:1px solid whitesmoke;
+        z-index:0;
+    }
+    justify-content: center;
+    display:block;
+    height:190px;
+    // width:30px;
+    border-radius:8px;
+    border:1px solid whitesmoke;
+    position:absolute;
+    // top:-15px;
+    top:29px;
+    // right:-21px;
+    right:-22px;
+    width:170px;
+    background-color: #ffffff;
+    z-index:999;
+    transform: translateY(5%); /* Oculto fuera de la pantalla */
+    opacity: 1;
+    transition: all 0.3s  ease-in-out; /* Transición suave */
+    &.profile{ 
+        right:-60px;
+    }
+    &.response{
+        right:-40px;
+    }
+}
+
+ .diff{
+    height:20%;
+    width:100%;
+    padding:6px 0 0;
+    cursor:pointer;
+    font-size:13px;
+    // &.active{height:33%}
+    &:hover{ background-color: whitesmoke;}
+    align-items:center;
+    overflow-x:hidden;
+   
+    span{
+        font-family:'Lexend';
+        font-size:9px;
+        position:relative;
+        top:-4px;
+        color:gray;
+    }
+
+   
+}
+
+.show-more-trends{
+    height:40px;
+    width:90%;
+    display:flex;
+    margin:auto;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-size:18px;
+    &:hover{
+       background-color: whitesmoke;
+       border-radius:8px;
+    }
+    
+}
+
+
+
+@media(max-width:1080px){
+    .options-message {
+   
+    .localities-render-type {
+        &.long{
+           left:0;
+        }
+    }
+    }
+}
+
+@media(max-width:750px){
+    .more-options{
+        &.long{
+           right:-10px;
+        }
+    }
+  
+}
+
+@media(max-width:850px){
+    .usr-mainpro{
+        .main-header-sugg{
+            word-break: break-word;  /* Corta la palabra si es muy larga */
+           overflow-wrap: break-word; /* Asegura que se ajuste al contenedor */
+           white-space: normal;
+           overflow-x:auto; 
+           
+
+        }
+    }
+}
+
+@media(max-width:718px){
+header{.options-message{
+    .more-options{
+        
+            right:-22px;
+            width:130px;
+            &.long{
+                background-color:red;
+            }
+    }
+}
+}
+.options-header-post{
+width:85%;
+}
+.foll-options-seguir-bg-orange{left:-58px;}
+.options-message .localities-render-type {
+    &.long{
+        left:5px;
+        // background-color: red;
+        
+    }
+}
+}

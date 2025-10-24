@@ -1,0 +1,9 @@
+Me gustaría que hicieses el diseño de un Login con las siguientes herramientas jsx y scss.
+Consiederaciones
+- Principalmente la forma que tiene el usuario de registrarse es a través de Google o con su correo electrónico, no ofrecemos más tipos de autenticaciones.
+- Ambas son bototnes que ponen algo así como Continue with Google Continue with your email + logo de cada una
+- En la parte superior de ambas pone algo así como Connect with cities,regions and countries
+-Font-Family:lEXEND
+-Diseño simple como el de una red social
+
+
