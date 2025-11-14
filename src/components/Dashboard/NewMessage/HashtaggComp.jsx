@@ -33,7 +33,7 @@ function HashtaggComp({tag,setDisplayListHashtagg,setTag,setDefInputHash,boolean
     return (
         <>
         {tag && 
-            <div className={booleanStyles === 'short' ? "tag-sh-body" : "tag-lg-body"}>
+            <div className={"tag-sh-body"}>
               <div className="input-group-tags">
                 <textarea type="text" name="" id=""  style={{color: 'black'}}
                 onChange={(e)=> handleChangeInputTag(e.target,setDisplayContentHashtagg,setInputHash,setData,setLoading)} 

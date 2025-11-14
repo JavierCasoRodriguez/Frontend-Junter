@@ -40,7 +40,7 @@ const NewsComponent = ({username})=>{
 //GENERAL;
 const UserPosts = ({index,username})=>{
   const navigate =  useNavigate();
-  const token  = getToken(() => navigate('/auth/login'));
+  // const token  = getToken(() => navigate('/auth/login'));
   const dataForIndex = (index,username)=>{
         const data = [];
                  if(index === 0){
@@ -103,7 +103,7 @@ const UserPosts = ({index,username})=>{
     useEffect(()=>{ 
 
 
-        fetchingData(userData[0].url,token)
+        fetchingData(userData[0].url)
     
           // filterDataByFrame(data,setItem,setSecondItemShoMore,setSmallRender,setThird,setTimeStorage)
           .then(data =>{
@@ -115,23 +115,24 @@ const UserPosts = ({index,username})=>{
             setLengthPosts(posts.length);
             setLoading(false);
             const idPosts = posts.map(element => data[element].id_message);
-            // console.log(`http://localhost:5000/config/get/user/iteractions/${idPosts}`);
-            fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
-                 headers: { 'Authorization': `Bearer ${token}`},
-            })
-            .then(response  => response.json())
-            .then(result => {
-              console.log(result,'result');
-              if(result.boolean){
-                setUserIteractions(result.iteractions);
-                setListFollowing(result.following);
-                setFiled(result.filed);
-              }
-            })
-            .catch(err => console.log(err))   
-            .finally(()=>{
-              setIteractionsEnd(true)
-            })
+            if(idPosts && idPosts.length > 0){
+              fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
+                credentials:"include"
+              })
+              .then(response  => response.json())
+              .then(result => {
+                console.log(result,'result');
+                if(result.boolean){
+                  setUserIteractions(result.iteractions);
+                  setListFollowing(result.following);
+                  setFiled(result.filed);
+                }
+              })
+              .catch(err => console.log(err))   
+              .finally(()=>{
+                setIteractionsEnd(true)
+              })
+            }
             
             });
       
@@ -144,7 +145,7 @@ const UserPosts = ({index,username})=>{
           (entries) => {
             console.log(entries,'entradas');
             if (entries[0].isIntersecting) {
-              getMorePosts(setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,userData[0].url,token,isLoading);
+              getMorePosts(setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,userData[0].url,isLoading);
             }
           },
           { threshold: 1 }

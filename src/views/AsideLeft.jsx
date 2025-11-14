@@ -7,9 +7,9 @@ import { MdInfoOutline } from "react-icons/md";
 import { HiBell,HiGlobe,HiPencilAlt,HiViewList, HiSearch,HiUser,HiPlusSm} from 'react-icons/hi';
 import {fetchingData} from '../components/js/renderMessages';
 
-function AsideLeft({event,username,showRem,displayedInputFt,
+function AsideLeft({event,username,showRem,displayedInputFt
     //NUEVO
-    token
+    
 
 }) {
 
@@ -25,7 +25,7 @@ function AsideLeft({event,username,showRem,displayedInputFt,
 
   useEffect(()=>{
   // 2º Pillar si tiene notificaciones;
-  fetchingData('http://localhost:5000/Notifications/exists/dashboard',token,isLoading).then(data =>{
+  fetchingData('http://localhost:5000/Notifications/exists/dashboard',isLoading).then(data =>{
     if(!data.result || data.message === 'No notificacions for this user' ){
       console.log('no hay notificaciones sin ver para este usuario');
     }else{

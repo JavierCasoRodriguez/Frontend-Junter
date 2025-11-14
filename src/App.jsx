@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // import NewLogin from './views/auth/NewLogin';
 function App() {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 const location  = useLocation();
 const authLocation = location.pathname.startsWith('/auth') ? true : false;
 

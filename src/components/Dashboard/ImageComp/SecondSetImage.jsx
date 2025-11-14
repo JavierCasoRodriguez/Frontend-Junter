@@ -9,14 +9,13 @@ import { ContextUid } from '../../../views/SessionContext';
 
 const SecondSetImage = ()=>{
 const navigate =  useNavigate();
-const token  = getToken(() => navigate('/auth/login'));
+// const token  = getToken(() => navigate('/auth/login'));
 const {username} = useContext(ContextUid)
 
-const getImage = (setSrc,token,setImageBlob,isLoading)=>{
+const getImage = (setSrc,setImageBlob,isLoading)=>{
         fetch('http://localhost:5000/images/get/photo/user/profile',{
-            method : 'GET',
-            headers: { 'Authorization': `Bearer ${token}`},
-        })
+      credentials:"include"
+    })
      .then(response => {
         if(!response.ok){
          throw new Error('error on response processing the image')
@@ -53,7 +52,7 @@ const getImage = (setSrc,token,setImageBlob,isLoading)=>{
     const [fastVerify,setFastVerify] = useState(2);
    
     useEffect(()=>{
-        getImage(setSrc,token,setImageBlob,isLoading);
+        getImage(setSrc,setImageBlob,isLoading);
         // const imageBase64 = localStorage.getItem('imageProfileUser');
         // if(imageBase64){
         //     setSrc(imageBase64);

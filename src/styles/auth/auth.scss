@@ -1,5 +1,7 @@
 @import '../GlobalStyles.scss';
-
+$orange:#FFA500;
+$lightorange:rgb(242, 194, 105); 
+$lightblack:rgba(0, 0, 0, 0.764);
 .container-register{
     width:30%;
     height:440px;
@@ -515,3 +517,304 @@
         }
       }
 }
+
+
+
+
+
+
+
+
+/* RegisterForm.css */
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  position:relative;
+  top:-50px;
+}
+
+.register-form {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border: 1px solid #e0e0e0;
+}
+
+.register-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: $orange;
+  font-family:'Lexend';
+  font-weight:200;
+  margin-bottom: 20px;
+}
+
+.register-form input {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.register-form input:focus {
+  border-color: #3b82f6;
+// border-color:$lightorange;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.register-form button {
+  padding: 12px 0;
+  border-radius: 10px;
+  border: none;
+  background-color: $orange;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  &:hover {
+  background-color: $lightorange;
+}
+}
+
+
+
+.register-login {
+  text-align: center;
+  font-size: 14px;
+  color: #666666;
+  margin-top: 10px;
+}
+
+.register-login a {
+//   color: #ffa5000;
+color:$lightorange;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-login a:hover {
+  text-decoration: underline;
+}
+
+.password-error{
+    color:red;
+}
+
+.toggle-password {
+position: absolute;
+right: 10px;
+background: none;
+border: none;
+cursor: pointer;
+font-size: 18px;
+padding: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+/* Add this to RegisterForm.css */
+
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  flex: 1;
+  padding-right: 40px; /* space for the toggle button */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffff;
+  &:focus{
+    outline:none;
+  }
+}
+
+
+
+//USER SETUP
+/* Layout */
+.setup-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+//   background: #f0f2f5;
+}
+
+.setup-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 420px;
+  transition: all 0.3s ease;
+  &.active{
+     opacity:0.4;
+     pointer-events: none;
+  }
+
+}
+
+/* Header progress */
+.progress-header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+}
+
+.progress-step {
+  font-size: 24px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.progress-step.active {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Form content */
+.step-title {
+  text-align: center;
+   color:$orange;
+   font-family: 'Lexend';
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.setup-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+//   border: 1px solid #ccc;
+  border-radius: 10px;
+//   background: #f7f8fa;
+  font-size: 15px;
+  background: #fff;
+  border:1px solid whitesmoke;
+//   transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.setup-form input:focus {
+  border-color: #1877f2;
+  
+  outline: none;
+}
+
+.hint {
+  font-size: 13px;
+  color: #606770;
+  margin-top: 4px;
+}
+
+/* Interests */
+.interests-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.interest-btn {
+  border: 1px solid #ccc;
+  background: #f7f8fa;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 14px;
+  &:hover{
+    background-color: $orange;
+    color:#fff;
+    border:1px solid transparent;
+    
+  }
+  &.selected{
+   background-color: $orange;
+    color:#fff;
+    border:1px solid transparent;
+  }
+}
+
+
+
+
+
+/* Navigation buttons */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.nav-btn, .submit-btn {
+  background: $orange;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.nav-btn:hover, .submit-btn:hover {
+  background: $lightorange;
+}
+
+.nav-btn.back {
+  background: #e4e6eb;
+  color: #050505;
+  &:hover{
+     background: #d8dadf;
+  }
+}
+
+.step{
+    &.fade-in{
+        h2{
+            color:$orange;
+            font-family: 'Lexend';
+            font-weight: 300;
+        }
+    }
+}
+
+/* Animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

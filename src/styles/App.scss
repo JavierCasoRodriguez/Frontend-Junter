@@ -979,6 +979,7 @@ position:absolute;
         top:4px;
         font-size:11px;
         font-family: 'Lexend';
+        //  font-family: "Georgia", serif;
         min-width:70px;
         height:20px; 
         border-radius:8px;
@@ -4044,10 +4045,11 @@ margin-left:0;
         left:-2px;
         // border:1px solid blue;
         font-size:13px;
-        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        // font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         text-align: center;
         margin-top:27px;
         margin-bottom:25px;
+       
         .coloured-item{
             &:hover{
                 text-decoration: underline;
@@ -4063,13 +4065,7 @@ margin-left:0;
         // border:1px solid whitesmoke;
         width:100%;
 
-        
-        
-    // .news-lg-content{
-    //     font-size:14px;
-    //     font-family:Verdana, Geneva, Tahoma, sans-serif;
-    //     height:10px;
-       
+
    
 
     }
@@ -4191,8 +4187,6 @@ overflow-y:auto;
     width: 25px;
     height: 25px;
     animation: spin 1s linear infinite;
-    margin:auto;
-    margin-top:20px;
     //el queryContent;
     margin:auto;
     margin-top:20px;
@@ -4832,3 +4826,179 @@ width:95%;
     background: #4338ca;
   }
 }
+
+
+
+
+
+//EXAMPLE WITH SCSS
+
+/* LoginInterface.css */
+
+.login-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+//   background: linear-gradient(180deg, #fff4e0 0%, #ffffff 100%);
+  padding: 24px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(16,24,40,0.08);
+  padding: 38px;
+  box-sizing: border-box;
+  
+}
+
+.login-header {
+  margin-bottom: 16px;
+  text-align: center;
+  margin-bottom:45px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 20px;
+//   font-weight: 600;
+font-weight:200;
+  color: $orange; /* orange theme */
+  font-family: 'Lexend';
+  
+  
+}
+
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+
+input {
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #fed7aa;
+  outline: none;
+  box-sizing: border-box;
+}
+}
+
+
+
+
+.primaryButton {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background-color: white;
+  border:1px solid $orange;
+  color:$orange;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover{
+    color:#fff;
+    background-color:$orange;
+  }
+}
+
+.divider-login {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 20px;
+  
+
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: #fed7aa;
+}
+
+.dividerText {
+  font-size: 13px;
+  color: rgb(188, 86, 48);
+}
+
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.socialButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  justify-content: center;
+    background: #fff;
+  border: 1px solid #e6edf3;
+  color: #111827;
+    &:hover{
+        border:1.5px solid #e6edf3
+    }
+}
+
+
+.facebook {
+  background: #1877F2;
+  color: #fff;
+}
+
+.socialText {
+  font-size: 14px;
+}
+
+.footer {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.footerText {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.link {
+  color: $lightorange;
+  text-decoration: none;
+}
+}
+.intro-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.app-subtitle {
+  color: #606770;
+  font-size: 15px;
+  margin: 10px 0 20px;
+}
+
+.start-btn {
+  background: #1877f2;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+

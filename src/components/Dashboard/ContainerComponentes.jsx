@@ -1,4 +1,3 @@
-import  getToken  from '../js/verifyToken';
 import Message from './MessageForm/Message';
 import{useEffect,useState,useRef,useContext, useMemo} from 'react';
 import {ContextUid} from '../../views/SessionContext';
@@ -10,8 +9,8 @@ import { useQuery } from '@tanstack/react-query'
 
 //Tendria que copiarlo en FriendsRoot y en la ruta del news
 
-  const fetchMainData = async (url, token) => {
-    const data = await fetchingData(url, token); // tu función custom
+  const fetchMainData = async (url) => {
+    const data = await fetchingData(url); // tu función custom
 
    
     if (data.index === 0) {
@@ -20,19 +19,25 @@ import { useQuery } from '@tanstack/react-query'
   
     const posts = Object.keys(data);
     const idPosts = posts.map(element => data[element].id_message);
-  
-    const iteractionsRes = await fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  
-    const result = await iteractionsRes.json();
-  
-    return {
-      data,
-      iteractions: result.boolean ? result.iteractions : null,
-      following: result.boolean ? result.following : null,
-      filed: result.boolean ? result.filed : null
-    };
+    if(idPosts && idPosts.length > 0){
+      const iteractionsRes = await fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
+        credentials:"include"
+      });
+    
+      const result = await iteractionsRes.json();
+    
+      return {
+        data,
+        iteractions: result.boolean ? result.iteractions : null,
+        following: result.boolean ? result.following : null,
+        filed: result.boolean ? result.filed : null
+      };
+    }else {
+      return {
+        data,
+        
+      }
+    }
   };
 
 
@@ -70,7 +75,7 @@ const getUrlFromPathForNews = (params,localitie,time)=>{
 
 const NewsWeekComponent = ()=>{
     //una opcion sería renderizar el componete message en uno y luego en los otros 2 el componente anterior
-    const token  = getToken(() => navigate('/auth/login'));
+    
     const location = useLocation();
     const navigate =  useNavigate();
     const uid = useContext(ContextUid);
@@ -91,40 +96,37 @@ const NewsWeekComponent = ()=>{
     const params = arrLocal[1];
     const defaultLocality  = arrLocal[2];
     const url  = getUrlFromPathForNews(params,defaultLocality,localSearch);
-
-    useEffect(()=>{ fetchingData(url,token)
+    useEffect(()=>{ fetchingData(url)
       .then(data =>{
-        if(data.index === 1){
-          navigate(`/chat/external/${params}/${defaultLocality}`)
-        }
-         else if(data.index === 0){
+         if(data.index === 0){
           setItem('not matched');
         } else{
           // if(boolean){
 
-            filterDataByFrame(data,setItem,setSecondItemShoMore,null,setThird);
+          filterDataByFrame(data,setItem,setSecondItemShoMore,null,setThird);
             // setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,url,token,isLoading
           const posts = Object.keys(data);
           setLengthPosts(posts.length);
           const idPosts = posts.map(element => data[element].id_message);
           isLoading(false);
-          
-          fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
-               headers: { 'Authorization': `Bearer ${token}`},
-          })
-          .then(response  => response.json())
-          .then(result => {
-            console.log(result,'result');
-            if(result.boolean){
-              setUserIteractions(result.iteractions);
-              setListFollowing(result.following);
-              setFiledPosts(result.filed);
-            }
-          })
-          .catch(err => console.log(err))   
-          .finally(()=>{
-            setIteractionsEnd(true)
-          })
+          if(idPosts && idPosts.length > 0){
+            fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
+              credentials:'include',
+            })
+            .then(response  => response.json())
+            .then(result => {
+              console.log(result,'result');
+              if(result.boolean){
+                setUserIteractions(result.iteractions);
+                setListFollowing(result.following);
+                setFiledPosts(result.filed);
+              }
+            })
+            .catch(err => console.log(err))   
+            .finally(()=>{
+              setIteractionsEnd(true)
+            })
+          }
         }
       }
     )},[]);
@@ -160,9 +162,9 @@ const NewsWeekComponent = ()=>{
     
     return (
 <>
-{loader ? 
+{/* {loader ? 
 <FastLoader />
-: (
+: ( */}
   <>
     <MappedPosts 
       item={item} 
@@ -174,9 +176,10 @@ const NewsWeekComponent = ()=>{
       uid={uid.uid}
       setItem={setItem}
       navigate={navigate}
+      isLoading={loader}
     />
   </>
-)}
+{/* )} */}
 
   {secondIsLoading && <FastLoader />}
   {lenPosts > 50 && <div  ref={loaderRef} style={{ height: '40px'}}></div>}
@@ -240,7 +243,7 @@ const renderMainComp = ()=>{
   return (<>{renderMainComp()}</>)
 }
 
-const MappedPosts = ({item,iteractions,listFollowing,iteractionsEnd,filed,navigate,uid,setItem})=>{
+const MappedPosts = ({item,iteractions,listFollowing,iteractionsEnd,filed,navigate,uid,setItem,isLoading})=>{
   console.log({
     item:item,
   })
@@ -288,7 +291,11 @@ const MappedPosts = ({item,iteractions,listFollowing,iteractionsEnd,filed,naviga
                     </div>
                     </div>
                     </div>}
-      {item && (
+
+                    {isLoading ? (
+<FastLoader />
+                    ):(
+            item && (
         item === 'not matched' ? (
           <div className="not-matched-cont-components-posts">
             <span>
@@ -334,7 +341,9 @@ const MappedPosts = ({item,iteractions,listFollowing,iteractionsEnd,filed,naviga
             />
           ))
         )
-      )}
+      )
+                    )}
+     
     </div>
   );
   
@@ -349,11 +358,10 @@ const FriendsRoot = ()=>{
     const url = 'http://localhost:5000/messages/render/junts/posts/friends';
     const [item,setItem] = useState(null);
     const navigate =  useNavigate();
-    const token  = getToken(() => navigate('/auth/login'));
     const uid = useContext(ContextUid);
     const [loader,isLoading] =  useState(false);
     useEffect(()=>{
-      fetchingData(url,token)
+      fetchingData(url)
       // .then(data => setItem(data))}
 
       .then(data =>{
@@ -385,15 +393,16 @@ const FriendsRoot = ()=>{
 return(
   <>
   
-  {loader ? (
+  {/* {loader ? (
     <FastLoader />  
     // Iría el storagedData para no cargar 2 veces 
-  ) : (
+  ) : ( */}
     <>
       <MappedPosts 
       navigate={navigate} uid={uid} setItem={setItem}
         item={item} 
         backgroundColor="orange" 
+        isLoading={loader}
         // iteractions={userIteractions} 
         // listFollowing={listFollowing} 
         // iteractionsEnd={iteractionsEnd} 
@@ -403,7 +412,7 @@ return(
 
      
     </>
-  )}
+  {/* )} */}
   
   
   </>
@@ -418,11 +427,7 @@ return(
 
 const MainRoot = ()=>{
   const navigate =  useNavigate();
-  // const token  = getToken(() => navigate('/auth/login'));
-  const token = useMemo(() => getToken(() => navigate('/auth/login')), []);
-
-  // console.log('el token no se borró',token);
-
+  // = useMemo(() => getToken(() => navigate('/auth/login')), []);
   const [item,setItem] = useState(null);
   const [secondItemShoMore,setSecondItemShoMore] =  useState(null);
   const [thirdPosts,setThird] = useState(null);
@@ -434,7 +439,6 @@ const MainRoot = ()=>{
   const [filed,setFiled] = useState(null);
   const [smallRender, setSmallRender] = useState(false);
   const [iteractionsEnd,setIteractionsEnd] = useState(false);
-  // const [loader,isLoading] = useState(true);
   const location = useLocation();
   const uid = useContext(ContextUid);
 // console.log(filed,'filed posts')
@@ -445,23 +449,15 @@ const MainRoot = ()=>{
   const url = getUrlFromPath(params,defaultLocality)
 
 
-
-
-
-
-
   const { data,isLoading,isFetching } = useQuery({
-    queryKey: ['mainRoot', url, token],
-    queryFn: () => fetchMainData(url, token),
+    queryKey: ['mainRoot', url],
+    queryFn: () => fetchMainData(url),
     staleTime: 1000 * 60 * 5,
-    enabled: !!token // Evita que corra si no hay token
+    // enabled: !!token // Evita que corra si no hay token
   });
 
   
-console.log({
-  item:item,
-  data:data
-})
+
 
   useEffect(() => {
     if (data?.notMatched) {
@@ -476,7 +472,6 @@ console.log({
         // setTimeStorage,
         true
       );
-
       setUserIteractions(data.iteractions);
       setListFollowing(data.following);
       setFiled(data.filed);
@@ -505,7 +500,7 @@ console.log({
         //Por ahora sto funciona pero habría que camiar el enfoque;
         // return <MappedPosts item={secondItemShoMore} backgroundColor='violet' iteractions={userIteractions} listFollowing={listFollowing}/>;
       } else{
-       fetchingData(url,token,isLoading)
+       fetchingData(url,isLoading)
         .then(data =>{
           // if(data.index === 1){
           //   navigate(`/chat/external/${params}/${defaultLocality}`)
@@ -535,10 +530,9 @@ console.log({
     displayShowMore();
 
 
-
   return (
     <>
-    {(!location.pathname.includes('/news/current') && displayMore && item !== 'not matched' && !smallRender ) && 
+    {(!location.pathname.includes('/news/current') && displayMore && item && item !== 'not matched' && !smallRender ) && 
     <div className="info-show-more-render" 
     onClick={getMorePosts}>
       <span>Show more</span>
@@ -547,23 +541,23 @@ console.log({
       //  <MappedPosts item={item} backgroundColor='red' iteractions={userIteractions} listFollowing={listFollowing} />
 )} */}
 
-{isFetching && <p>cargando en segundo plano</p>}
+{/* {isFetching && <p>cargando en segundo plano</p>} */}
 
-{isLoading ? (
+{/* {isLoading ? (
   <FastLoader />  
-) : (
+) : ( */}
   <>
     <MappedPosts 
       navigate={navigate} uid={uid} setItem={setItem}
       item={item} 
-      backgroundColor="orange" 
       iteractions={userIteractions} 
       listFollowing={listFollowing} 
       iteractionsEnd={iteractionsEnd} 
       filed={filed}
+      isLoading={isLoading}
     />
   </>
-)}
+{/* )} */}
 
     </>
   
@@ -573,7 +567,6 @@ console.log({
 
 
 const CountryComponent = ()=>{
-
   return (<><MainRoot /></>)
 }
 

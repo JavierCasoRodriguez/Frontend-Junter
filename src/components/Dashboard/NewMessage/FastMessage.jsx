@@ -6,7 +6,7 @@ import {PickleEmticon,ContentPickleEmoticon} from './PickleEmticon.jsx';
 import NoLocalityFound from './NoLocalityFound.jsx';
 import BottomNotifBar from '../BottomNotifBar.jsx';
 import { ContextUid } from '../../../views/SessionContext.jsx';
-import getToken from '../../js/verifyToken';
+// import getToken from '../../js/verifyToken';
 
 
 
@@ -16,10 +16,10 @@ import getToken from '../../js/verifyToken';
 
   const FastPost = ({ path, navigate, uid, setItem }) => {
 
-    getToken(() => navigate('/auth/login'));
+    // getToken(() => navigate('/auth/login'));
     const {username,userImage} = useContext(ContextUid);
     const [thread, setThread] = useState(true);
-
+    const [idPost,setIdPost] = useState('');
     const [inputThread, setInputThread] = useState({ 1: '' });
     const [counterThread, setCounterThread] = useState([0]);
     const [currentThread, setCurrentThread] = useState(0);
@@ -69,19 +69,20 @@ import getToken from '../../js/verifyToken';
         const defaultPath = path.split('/');
         const params = defaultPath[1]
         const localitie = defaultPath[2];
-        const randomIdMessage  = generarIdMessage(16);
+        //const randomIdMessage  = generarIdMessage(16);
     
         fetch('http://localhost:5000/messages/send/post/fast',{
           method : 'POST',
           headers: {'Content-type':'application/json'},
-          body: JSON.stringify({ uid,text,localitie,params,randomIdMessage })
+          body: JSON.stringify({ uid,text,localitie,params })
       })
       .then(response => response.json())
       .then(data => {
         console.log('data de deb',data);
         const {content,index} = data;
-       
-        const {country,region,city} = content;
+        
+        const {country,region,city,idPost} = content;
+        setIdPost(idPost)
         console.log('este es el contenido',content);
         // data es 2 pues habría que decir que no es tu localidad cambia de localidad;
         //Igual con el BottomNotif..
@@ -95,12 +96,12 @@ import getToken from '../../js/verifyToken';
             },5000)
             setInputThread({1:''})
         if(username && userImage){
-          console.log('random id message',randomIdMessage)
+          console.log('random id message',idPost)
         
           setItem(prevPosts => {
               const newPost = {
-                key: randomIdMessage,
-                id_message:randomIdMessage,
+                key: idPost,
+                id_message:idPost,
                 username:username,
                 img:userImage,
                 content: text,
@@ -117,7 +118,7 @@ import getToken from '../../js/verifyToken';
                 thread: false
               };
 
-              console.log("Nuevo post a insertar:", newPost);
+             
               return [newPost, ...prevPosts];
             });
              if(data.boolean){

@@ -48,15 +48,15 @@ const getDefaultIconIteraction = (iconByDefault,iconActive,determinedPath,origen
     
     
     if(!iteractionsEnd){
-        console.log('ruta 1')
+        // console.log('ruta 1')
         return iconByDefault;
     }
     if(determinedPath){ //por ejemplo la ruta de los likes;
-        console.log('ruta 2')
+        // console.log('ruta 2')
         return iconActive
     }
     if(displayOptionsRepost && booleanForRepost){
-        console.log('ruta 3')
+        // console.log('ruta 3')
         return  iconActivated
      }
 
@@ -65,7 +65,7 @@ const getDefaultIconIteraction = (iconByDefault,iconActive,determinedPath,origen
     if(isItem){ 
         // setIconLikes(true);
         // setIconLikes(true);
-        console.log('ruta 4');
+        // console.log('ruta 4');
     return  iconActive
     }else{
         return iconByDefault;
@@ -81,11 +81,11 @@ const getDefaultIconIteraction = (iconByDefault,iconActive,determinedPath,origen
 
 const sendReply = (response,text,uid,setCounterReplies,counterReplies,userIdPost)=>{ 
     // const newNumReplies = replies + 1;
-    const idPost = generarIdMessage(16);
+    
 
     if(text.length > 0 && text.length < 251){
         // uid,input,username,state,idPost
-        const data = {uid,text,idPost,userIdPost}
+        const data = {uid,text,userIdPost}
         fetch(`http://localhost:5000/messages/replies/submit/post/${response}`,{
              method : 'POST',
              headers: {'Content-type':'application/json'},
@@ -95,9 +95,8 @@ const sendReply = (response,text,uid,setCounterReplies,counterReplies,userIdPost
          .then(data =>
 
              {
-              console.log('estos son los datos',data);
               if(data.boolean){
-                insertRelevantWords(text,idPost,data.lang);
+                insertRelevantWords(text,data.idPost,data.lang);
               }
               setInput('');
                  if(data.boolean){ 

@@ -1,8 +1,6 @@
 import  { useState,useEffect } from "react";
-import getToken from '../../js/verifyToken';
 import Navbar from '../../../views/Nav';
 import FastLoader from '../../../views/processing/FastLoader';
-import { useNavigate } from "react-router-dom";
 import {fetchingData} from '../../js/renderMessages';
 import { useQuery } from '@tanstack/react-query'
 
@@ -10,8 +8,6 @@ import { useQuery } from '@tanstack/react-query'
 
 export default function TrendsPage() {
   
-  const navigate =  useNavigate();
-  const token  = getToken(() => navigate('/auth/login'));
   // const [loader,setLoading] = useState(true);
   const [loaderContent,setLoadingContent] = useState(true);
   // const [selectedCountry,setSelectedCountry] = useState('');
@@ -20,10 +16,10 @@ export default function TrendsPage() {
   const [selectedCategory, setSelectedCategory] = useState('Trending in Junter');
   
    const { data,isLoading } = useQuery({
-    queryKey: ['mainTrendsSrch', 'http://localhost:5000/trends/user/localities/general', token],
-    queryFn: () => fetchingData('http://localhost:5000/trends/user/localities/general',token),
+    queryKey: ['mainTrendsSrch', 'http://localhost:5000/trends/user/localities/general'],
+    queryFn: () => fetchingData('http://localhost:5000/trends/user/localities/general'),
     staleTime: 1000 * 60 * 5,
-    enabled: !!token // Evita que corra si no hay token
+    // enabled: !!token // Evita que corra si no hay token
   });
 
 
@@ -36,15 +32,15 @@ const defaultCountry = data ?  data.ip : '';
   let categories = ["For You", 
     `${prefix} Junter`,
     "Top News",
-    `${prefix} Sports`,
-    `${prefix} Politics`,
-    `${prefix} Entertainment`,
+    // `${prefix} Sports`,
+    // `${prefix} Politics`,
+    // `${prefix} Entertainment`,
     `${prefix} ${defaultCountry}`,
     `${prefix} ${selectedCountry}`,
-     `${prefix} Health`,
-     `${prefix} Finances`,
-     `${prefix} Technology`,
-     `${prefix} Lifestyle`,
+    //  `${prefix} Health`,
+    //  `${prefix} Finances`,
+    //  `${prefix} Technology`,
+    //  `${prefix} Lifestyle`,
       'Long Posts', '# Tags'];
   //El orden  probablemente haya que cambiarlo;
   if (defaultCountry === selectedCountry) {
@@ -59,7 +55,7 @@ const defaultCountry = data ?  data.ip : '';
     const staticUrls = {
       'For You': 'http://localhost:5000/trends/main/suggest',
       'Trending in Junter': 'http://localhost:5000/trends/all/posts',
-      'Top News': 'http://localhost:5000/trends/news',
+      'Top News': 'http://localhost:5000/trends/based/news',
       'Long Posts': 'http://localhost:5000/trends/all/posts?filter=long',
       '# Tags': 'http://localhost:5000/trends/search/tags'
     };
@@ -88,11 +84,10 @@ useEffect(() => {
   const url = getDefaultUrl(selectedCategory);
 
   console.log('URL generada:', url);
-  console.log('Token:', token);
   console.log(selectedCategory);
   setLoadingContent(true);
   setItem([]);
-  fetchingData(url, token).then(data => {
+  fetchingData(url).then(data => {
     
     console.log('Data recibida:', data);
     if (data) {
@@ -142,21 +137,19 @@ useEffect(() => {
       </div>
 )   }
 
-<div  className="cnt-general-trends" >
+<div  className="cnt-general-trends">
     {loaderContent ? 
     <FastLoader />
     : item &&  item.map((item, index) => (
       <div className="item-trending" key={index}>
-      <div
-        className={`item-name ${selectedCategory === '# Tags' ? 'selected' : ''}`} 
-      >
+      <div className={`item-name ${(selectedCategory === '# Tags' || item.word.startsWith('#')) ? 'selected' : ''}`}>
         {item.word}
       </div>
       <div className="item-description">
         Mentions: <strong>{item.count}</strong>
       </div>
       <div className="item-category">
-        Category: {item.category}
+        {/* Category: {item.category} */}
       </div>
     </div>
     ))}

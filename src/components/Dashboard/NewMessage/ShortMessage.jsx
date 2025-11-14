@@ -3,7 +3,7 @@ import { useState,useRef, useEffect,useContext } from 'react';
 import {ContextUid} from '../../../views/SessionContext.jsx';
 import {useNavigate,useLocation } from 'react-router-dom';
 import BottomNotifBar from '../BottomNotifBar.jsx';
-import getToken from '../../js/verifyToken';
+// import getToken from '../../js/verifyToken';
 import Message from '../MessageForm/Message.jsx';
 import {ContextLocal} from '../../../views/ProviderLocal.jsx' 
 import {handleDecodedTextUri,handleChangeTextLocalities,getActualPathForLocalities,newThread,deleteItemThread, handleImageUpload, sendThread,activateInput,insertRelevantWords} from '../../js/sendMessages.js';
@@ -27,7 +27,7 @@ function ShortMessage() {
 
   const navigate = useNavigate();
   const location = useLocation();
-   getToken(() => navigate('/auth/login'));
+  //  getToken(() => navigate('/auth/login'));
   const {uid,username,userImage} = useContext(ContextUid);
   const {localidades} = useContext(ContextLocal) ;
 
@@ -151,7 +151,7 @@ const sendMessage = async (text,uid,tags,image,cover,formatStyle) => {
     } else {
       // Si solo hay una imagen
 
-      console.log('va por aqui');
+      console.log('va por alla');
       body.append("image", image);
     }
     body.append('imageCover',cover);
@@ -205,7 +205,7 @@ const sendMessage = async (text,uid,tags,image,cover,formatStyle) => {
 
 const objectTools = {
   item:[<h4  key={1} className={!displayLocalities ?'text-loc-opt-sh':'text-loc-opt-sh active' }>
-           {location.pathname === '/new/post/format/short'? 'JUNTER': handleDecodedTextUri()}</h4>,<CiImageOn   key={2}/>,<div className="cont-hastagg-short" key={3}>#</div>,'Change State',<PickleEmticon  key={5} setPickeVisible={setPickeVisible} isPickleVisible={isPickleVisible} pickleSize={20}/>],
+   {location.pathname === '/new/post/format/short'? 'JUNTER': handleDecodedTextUri()}</h4>,<CiImageOn   key={2}/>,<div className="cont-hastagg-short" key={3}>#</div>,'Change State',<PickleEmticon  key={5} setPickeVisible={setPickeVisible} isPickleVisible={isPickleVisible} pickleSize={20}/>],
   className:['localities-options-sh',"img-ic-tools short",tag ? "add-tag-sh active" : "add-tag-sh",displayInputState ? 'setting-post-sh-state active' :'setting-post-sh-state'],
   onClick:[()=> setDisplayLocalities(!displayLocalities),()=> activateInput(fileInputRef), ()=>setTag(!tag),()=> setdisplayInputState(!displayInputState)]
 }

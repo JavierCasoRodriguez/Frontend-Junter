@@ -7,7 +7,7 @@ import Message from '../MessageForm/Message';
 import InputResponse from "./InputResponse";
 import Loader  from '../../../views/processing/FastLoader';
 import {fetchingData} from '../../js/renderMessages';
-import getToken from "../../js/verifyToken";
+// import getToken from "../../js/verifyToken";
 import {getDefaultPostLocality} from '../../js/messageToolsFn';
 // import {AiOutlineRetweet} from 'react-icons/ai'
 // import { FiUserCheck } from 'react-icons/fi';
@@ -18,7 +18,7 @@ const LongPostResponse = () => {
     const [mainPost,setMainPost] = useState(null);//renderizadk de respuestas    
     const [loading ,isLoading] = useState(false);
     const queryId  = location.pathname.split('/')[4];
-    const token  = getToken(() => navigate('/auth/login'));
+    // const token  = getToken(() => navigate('/auth/login'));
     const [userIteractions,setUserIteractions] = useState(null);
     const [listFollowing,setListFollowing] = useState(null);
     const [filedPostsFromDb, setFiledPostsFromDb] = useState(null)
@@ -39,7 +39,7 @@ const LongPostResponse = () => {
   // const [successfullOption,setSuccessfullOpt] = useState(null);
     useEffect(()=>{
         // const fetchingData = async  (url,token,isLoading)=>{
-            fetchingData(`http://localhost:5000/messages/replies/posts/${queryId}`,token,isLoading)
+            fetchingData(`http://localhost:5000/messages/replies/posts/${queryId}`,isLoading)
             .then(data => {
 
               // if(data?.length > 0){
@@ -59,22 +59,24 @@ const LongPostResponse = () => {
                     idPosts.push(idPostsResponses);
                   }
                         console.log('id posts',idPosts);
+                  if(idPosts && idPosts.length > 0){
 
-                  fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
-                    headers: { 'Authorization': `Bearer ${token}`},
-               })
-               .then(response  => response.json())
-               .then(result => {
-                 if(result.boolean){
-                   setUserIteractions(result.iteractions);
-                   setListFollowing(result.following);
-                   setFiledPostsFromDb(result.filed);
-                 }
-               })
-               .catch(err => console.log(err))   
-               .finally(()=>{
-                 setIteractionsEnd(true)
-               })
+                    fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
+                    credentials:"include"
+                  })
+                 .then(response  => response.json())
+                 .then(result => {
+                   if(result.boolean){
+                     setUserIteractions(result.iteractions);
+                     setListFollowing(result.following);
+                     setFiledPostsFromDb(result.filed);
+                   }
+                 })
+                 .catch(err => console.log(err))   
+                 .finally(()=>{
+                   setIteractionsEnd(true)
+                 })
+                  }
               }
               // else{
               //   navigate(`/post/${queryId}`)
@@ -144,7 +146,7 @@ console.log('user iteractions',userIteractions);
      image={mainPost[0].img}
      username={mainPost[0].username} 
      estado={mainPost[0].state} 
-     date={mainPost[0].time} 
+     date={mainPost[0].date} 
      likes={mainPost[0].likes}
      tn={mainPost[0].tn}
      views={mainPost[0].views}

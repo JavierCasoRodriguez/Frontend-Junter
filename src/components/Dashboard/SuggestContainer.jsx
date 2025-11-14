@@ -1,16 +1,16 @@
 import {useEffect,useState} from 'react';
-import { useLocation,useNavigate } from 'react-router-dom';
-import getToken from '../js/verifyToken';
+import { useLocation } from 'react-router-dom';
+// import getToken from '../js/verifyToken';
 import Persons from './AsideRight/Sugerencia.jsx';
 import FastLoader from '../../views/processing/FastLoader';
 import { fetchingData } from '../js/renderMessages.js';
 function SuggestContainer() {
 
     const location = useLocation();
-    const navigate =  useNavigate();
-    const token  = getToken(() => navigate('/auth/login'));
+    // /const token  = getToken(() => navigate('/auth/login'));
     const [data,setData] = useState([]);
     const [isLoading,setLoading] = useState(true)
+    
     const searchPath = location.pathname.startsWith('/search') ? true : false;
     
     function getRandomUsers(users, count = 5) {
@@ -39,7 +39,7 @@ function SuggestContainer() {
       }
   else{
 
-    fetchingData('http://localhost:5000/config/get/users/suggest', token).then(data => {
+    fetchingData('http://localhost:5000/config/get/users/suggest').then(data => {
         if (data.length > 0) {
             // No hago la validación de 6 porque siempre va a ser mayor que 6
             const randomizedUsers = getRandomUsers(data);

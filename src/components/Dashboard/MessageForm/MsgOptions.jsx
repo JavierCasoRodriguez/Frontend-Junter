@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 
 function OptionsMessage({param,render,username,long,idPost,userid,booleanForFollow,
+  image,
   outlineBookmarkIcon,FiUserCheck,viewIcon,
   iteractionsEnd,setDisplayTrashMessage,
   arrFromDbFollowing ,setArrFromDbFollowing,
@@ -63,7 +64,7 @@ const deletePost = (long,uid)=>{
   const responsePost = location.pathname.startsWith('/post'); 
 
 if((responsePost && long) || (responsePost && render === 0)){
-  alert('va por aqui');
+  // alert('va por aqui');
   setDisplayTrashMessage(true);
 }else{
   setItem((prev)=> prev.filter(item  => item.id_message !== idPost))//mirar con GPT;
@@ -78,13 +79,13 @@ fetch(`http://localhost:5000/messages/delete/post/id/${idPost}`,{
     headers: {'Content-type':'application/json'},
     //Con saber el country(islOcalidades === country) ya es parámetro de localidades
     //También se deben de poder borrar comentarios;
-    body: JSON.stringify({ long,uid,isCitation,thread,isLocalidades,isComment })
+    body: JSON.stringify({ long,uid,isCitation,thread,isLocalidades,isComment,image })
 })
 .then(response => response.json())
 .then(data => {
-  if((data && responsePost && long) || ( data && responsePost && render === 0)){//Cambiar GPT(REPITE DATA)
+  if((data && responsePost && long) || ( data && responsePost && render === 0)){    //Cambiar GPT(REPITE DATA)
     setTimeout(()=>{
-      const defaultRedirectNewPost  = long ? 'long': 'short';
+      const defaultRedirectNewPost = long ? 'long': 'short';
       navigate(`/new/post/format/${defaultRedirectNewPost}`);
     },2000)
   }

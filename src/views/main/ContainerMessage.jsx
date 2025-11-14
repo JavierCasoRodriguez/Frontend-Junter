@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import AsideLeft from '../AsideLeft';
 import {Outlet, useLocation,useNavigate} from 'react-router-dom';
 // import Loader from '../processing/Loader';
-import getToken from '../../components/js/verifyToken'
+// import getToken from '../../components/js/verifyToken'
 // import RenderHeader from '../Header';
 import RedirectAsideRight from '../../views/AsideRight';
 import { ContextUid } from '../SessionContext';
@@ -16,7 +16,7 @@ function ContainerMessages() {
   // const [morePosts,setMorePosts] = useState('');
   const navigate =  useNavigate();
   const location = useLocation();
-  const token  = getToken(() => navigate('/auth/login'));
+  // const token  = getToken(() => navigate('/auth/login'));
   const {username} = useContext(ContextUid);
   const {localidades} = useContext(ContextLocal);
 
@@ -33,7 +33,6 @@ const defineClassName = (index)=>{
      arr =  ["cont-posts-dashboard-junter active",'prn-cnt-main active'];
   } else{
      arr =  ["cont-posts-dashboard-junter",'prn-cnt-main']
-
   }
 
   return arr[index]
@@ -48,14 +47,14 @@ const defineClassName = (index)=>{
                  
                     {/* 1 dIV => POSTS */}
                     </>
-                    <AsideLeft    token={token} username={username} />
+                    <AsideLeft    username={username} />
                     <div className={defineClassName(1)} style={{width:location.pathname.startsWith('/search') && '90%'}}>
                     <div className={defineClassName(0)} >
                    <Outlet />
                     </div>
                 {/* 2 aSIDE DE LA DERECHA */}
              <div className="lateral-aside-right-cnt-dashboard">
-              <RedirectAsideRight  localidades={localidades} token={token} username={username}/>
+              <RedirectAsideRight  localidades={localidades} username={username}/>
                 </div>
                     </div>
           </>

@@ -6,8 +6,8 @@ import getToken from '../js/verifyToken';
 import Sugerencia from './AsideRight/Sugerencia';
 import Nav from '../../views/Nav';
 function Followers() {
-    const navigate =  useNavigate();
-    const token  = getToken(() => navigate('/auth/login'));
+    //const navigate =  useNavigate();
+    // const token  = getToken(() => navigate('/auth/login'));
     const [userList,setUserList] = useState([]);
     const [loading,setLoading] = useState(true);
     const isFirstRun = useRef(true);
@@ -30,13 +30,15 @@ function Followers() {
                     });
                 }else if(location.pathname === '/profile/followers'){
                     response = await fetch(`http://localhost:5000/Profile/get/followers/seguidores/list/myself`, {
-                        headers: {'Authorization': `Bearer ${token}`},
+                        credentials:"include"
                     });
 
                 } else if(location.pathname === '/profile/following'){
-                    response = await fetch(`http://localhost:5000/Profile/get/following/seguidos/list/myself`, {
-                        headers: {'Authorization': `Bearer ${token}`},
-                    });
+                    response = await fetch(`http://localhost:5000/Profile/get/following/seguidos/list/myself`, 
+                        {
+                        credentials:"include"
+                }       
+                    );
                 } else if(location.pathname === `/profile/users/${username}/following`){
                     response = await fetch(`http://localhost:5000/Profile/get/following/seguidos/list/${username}/staus?token=no`);
                 }

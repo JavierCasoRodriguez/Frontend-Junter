@@ -34,7 +34,7 @@ const filterDataByFrame = (rows, setMainRenderItem, setSecond,setSmallRender,set
 
   }
 
-  const fetchingData = async  (url,token
+  const fetchingData = async  (url
     // ,isLoading
   )=>{
     // const localSearch = location.search.split('=')[1];
@@ -42,8 +42,8 @@ const filterDataByFrame = (rows, setMainRenderItem, setSecond,setSmallRender,set
     
     try {
       const response = await fetch(url,{
-        headers: { 'Authorization': `Bearer ${token}`},
-      });
+      credentials:"include"
+    });
           if (!response.ok) {
           throw new Error('Error al obtener los datos');
       }
@@ -59,7 +59,7 @@ const filterDataByFrame = (rows, setMainRenderItem, setSecond,setSmallRender,set
 
 
       //REFERENCIA => AQUELLOS CASOS DONDE SALE EL LOADING PARA ABAJO;
-      const getMorePosts = (setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,url,token,isLoading)=>{
+      const getMorePosts = (setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,url,isLoading)=>{
         // setActiveFastLoader(true);
         // setDisplayMore(false);
         setSecondIsLoading(false);
@@ -79,7 +79,7 @@ const filterDataByFrame = (rows, setMainRenderItem, setSecond,setSmallRender,set
           //Por ahora sto funciona pero habría que camiar el enfoque;
           // return <MappedPosts item={secondItemShoMore} backgroundColor='violet' iteractions={userIteractions} listFollowing={listFollowing}/>;
         } else{
-         fetchingData(url,token,isLoading)
+         fetchingData(url,isLoading)
          //aqui el Loader es real;
           // .then(data =>{
           //   if(data.index === 1){

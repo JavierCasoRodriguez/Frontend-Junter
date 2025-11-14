@@ -4,7 +4,7 @@ import { useLocation,useNavigate } from "react-router-dom";
 import NavResponse from '../../../views/Nav';
 import Loader from '../../../views/processing/FastLoader';
 import InputResponse from "./InputResponse";
-import getToken from "../../js/verifyToken";
+// import getToken from "../../js/verifyToken";
 import { getDefaultPostLocality } from "../../js/messageToolsFn";
 import BottomNotifBar from "../BottomNotifBar";
 import { HiOutlineTrash } from "react-icons/hi";
@@ -34,7 +34,7 @@ function Response() {
     const [isPickleVisible,setPickeVisible] = useState(false);
     const [displayTrashMessage,setDisplayTrashMessage] = useState(false);
 
-    const token  = getToken(()=> navigate('/auth/login'));
+    // const token  = getToken(()=> navigate('/auth/login'));
 
     // console.log(queryId);
    useEffect(()=>{
@@ -73,23 +73,24 @@ function Response() {
         const idPostsResponses = postsResponses.map(element => responseData.responses[element].id_message);
         idPosts.push(idPostsResponses);
       }
-      console.log('id posts',idPosts);
-      fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
-        headers: { 'Authorization': `Bearer ${token}`},
-   })
-   .then(response  => response.json())
-   .then(result => {
-     // console.log(result,'result');
-     if(result.boolean){
-       setUserIteractions(result.iteractions);
-       setListFollowing(result.following);
-       setFiled(result.filed);
-     }
-   })
-   .catch(err => console.log(err))   
-   .finally(()=>{
-     setIteractionsEnd(true)
-   })
+      if(idPosts && idPosts.length > 0){
+        fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
+        credentials:"include"
+      })
+     .then(response  => response.json())
+     .then(result => {
+       // console.log(result,'result');
+       if(result.boolean){
+         setUserIteractions(result.iteractions);
+         setListFollowing(result.following);
+         setFiled(result.filed);
+       }
+     })
+     .catch(err => console.log(err))   
+     .finally(()=>{
+       setIteractionsEnd(true)
+     })
+      }
         }
       }
       } catch (error) {
@@ -97,6 +98,7 @@ function Response() {
     }finally{
       setLoading(false);
     }
+
   };
   fetchingResponse();
 },[location.pathname])
@@ -204,7 +206,7 @@ const FormatMessageComp = ({mainPost,userIteractions,listFollowing,filed,iteract
    long={mainPost.long}
    text={mainPost.content}
    tittle={mainPost.tittle}
-   date={mainPost.time}
+   date={mainPost.date}
    userid={mainPost.userid}
    country={mainPost.country}
    region={mainPost.region}

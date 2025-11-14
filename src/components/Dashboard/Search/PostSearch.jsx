@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const PostSearch = ()=>{
     const navigate =  useNavigate();
-    const token  = getToken(() => navigate('/auth/login'));
+    // const token  = getToken(() => navigate('/auth/login'));
     const [item,setItem] = useState(null);
     const [counterForRender,setCounterForRender] = useState(1);
     const [secondItemShoMore,setSecondItemShoMore] =  useState(null);
@@ -21,7 +21,7 @@ const PostSearch = ()=>{
 
     const [loader,isLoading] = useState(true);
     const url = 'http://localhost:5000/messages/render/junts/posts/main';
-    useEffect(()=>{ fetchingData(url,token)
+    useEffect(()=>{ fetchingData(url)
   
       // filterDataByFrame(data,setItem,setSecondItemShoMore,setSmallRender,setThird,setTimeStorage)
       .then(data =>{
@@ -31,22 +31,25 @@ const PostSearch = ()=>{
             isLoading(false);
           const posts = Object.keys(data);
           const idPosts = posts.map(element => data[element].id_message);
-          // setListIdPosts(idPosts);
-          fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
-               headers: { 'Authorization': `Bearer ${token}`},
-          })
-          .then(response  => response.json())
-          .then(result => {
-            console.log(result,'result');
-            if(result.boolean){
-              setUserIteractions(result.iteractions);
-              setListFollowing(result.following);
+         
+
+            if(idPosts && idPosts.length > 0){
+              fetch(`http://localhost:5000/config/get/user/iteractions/${idPosts}`,{
+                    credentials:"include"
+                  })
+              .then(response  => response.json())
+              .then(result => {
+                console.log(result,'result');
+                if(result.boolean){
+                  setUserIteractions(result.iteractions);
+                  setListFollowing(result.following);
+                }
+              })
+              .catch(err => console.log(err))   
+              .finally(()=>{
+                setIteractionsEnd(true)
+              })
             }
-          })
-          .catch(err => console.log(err))   
-          .finally(()=>{
-            setIteractionsEnd(true)
-          })
         });
         
     },[]);
@@ -57,7 +60,7 @@ const PostSearch = ()=>{
         (entries) => {
           console.log(entries,'entradas');
           if (entries[0].isIntersecting) {
-            getMorePosts(setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,url,token,isLoading);
+            getMorePosts(setItem,secondItemShoMore,thirdPosts,counterForRender,setCounterForRender,setSecondIsLoading,url,isLoading);
           }
         },
         { threshold: 1 }

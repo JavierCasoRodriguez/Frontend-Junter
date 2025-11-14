@@ -1,5 +1,5 @@
-import { useState,useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useState,useContext,useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 // import  getToken from '../components/js/verifyToken';
 import RememberMe from '../components/Dashboard/Rememberme'
 import {fetchingData} from '../components/js/renderMessages';
@@ -14,18 +14,13 @@ import {ContextLocal} from './ProviderLocal';
 function Dashboard() {
 
   const {username} = useContext(ContextUid);
+  console.log('Este es el usuario',username);
   const {localidades,loaderLocalidades} = useContext(ContextLocal);
   // const [node,setNode] = useState(true);
   const [displayRemember,setDisplayRemember] = useState(null);
-  //Código a borrar;
- 
-
 
     return (
        <>
-       <>
-
-       </>
        <>
        { displayRemember && <RememberMe display={()=> setDisplayRemember(!displayRemember)} />}
        </>

@@ -5,10 +5,10 @@ import {CgSmileSad} from 'react-icons/cg'
 import BottomNotifBar from '../BottomNotifBar';
 import {  useNavigate,useLocation,useSearchParams } from 'react-router-dom';
 import { useState,useContext,useEffect } from 'react';
-import ContentMessage from './ContentMessage';
 import {ContextUid} from '../../../views/SessionContext';
 import OptionsMessage from './MsgOptions';
 import MessageTools from './MessageTools';
+import ContentMessage from './ContentMessage';
 import ContentLg from './ContentLongMessage';
 import {formatedTime,getDefaultPostLocality,redirectToLocality,localityDef} from '../../js/messageToolsFn';
 import {AiOutlineRetweet} from 'react-icons/ai'
@@ -196,14 +196,14 @@ function Message({id,username,image,date,text,likes,tn,replies,repost,views,cont
       const updated = [...view, { postId: idPost, userId }];
       localStorage.setItem('viewedPost', JSON.stringify(updated));
   
-      console.log(`Añadido post ${idPost} para el user ${userId}`);
+      // console.log(`Añadido post ${idPost} para el user ${userId}`);
   
       if (updated.length > 5) {
         await sendView(updated);
         localStorage.removeItem('viewedPost');
       }
     } else {
-      console.log(`Post ${idPost} ya visto por el user ${userId}`);
+      // console.log(`Post ${idPost} ya visto por el user ${userId}`);
     }
   };
   
@@ -212,9 +212,7 @@ const sendView = async (storedIdPosts)=>{
 
   const response = await fetch('http://localhost:5000/messages/settings/add/user/views', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       uid:uid.uid,
       objectUser:storedIdPosts,
@@ -283,10 +281,10 @@ const sendView = async (storedIdPosts)=>{
         //setFirstRenderItem => el primer renderizado para saber si le gustaron las news o likes
         //firstRenderItem => el item del primer renderizado;
         const existsIteraction = iteractionsFromDb.some(item => item.origen === origen  && id === item.id_message);
-        console.log('iteracciones en general',iteractionsFromDb)
+        // console.log('iteracciones en general',iteractionsFromDb)
         
                 if(!existsIteraction){
-                    console.log('me tira esta ruta ');
+                    // console.log('me tira esta ruta ');
                    
                     // console.log('iteracciones desde la BDD 1',iteractionsFromDb)
                     // setIconItem(true); ahora se cambia a un arrray;
@@ -349,20 +347,20 @@ const sendView = async (storedIdPosts)=>{
         }
        }         
 
-const renderFormatPost = ()=>{
-  //long,true,reply
-  if(location.pathname.startsWith('/post')){
-    if(long){
-     return  <ContentLg  tittle={text} contentLong={contentLong}
-    //  tittle={tittle}
-    iconClose={<HiOutlineX />}
-     />
-    }else{
-      return  <><ContentMessage  definedUserStyles={definedUserStyles} renderTextWithHashtags={renderTextWithHashtags} text={text}  lg={long} onClick={()=> handleClick(true)} onClickRes={()=> handleClick(false)} id={id}  response={response} username={username} img={'imagen a renderizar'} navigate={navigate} location={location} localityDef={localityDef(response)} responseImage={response && <ImageHeader image={response.img}/>}  iconClose={<HiOutlineX />} sendImage={sendImage} setSendImage={setSendImage} setDefaultCover={setDefaultCover} formatImage={formatImage} setFormattedImage={setFormattedImage} defaultCover={defaultCover} contentImage={contentImage} outlineReply={<HiOutlineReply />} searchParams={searchParams} indexImage={indexImage}/></>     
-    }
-  }else{
-   return  <><ContentMessage definedUserStyles={definedUserStyles} renderTextWithHashtags={renderTextWithHashtags} text={text}  lg={long} onClick={()=> handleClick(true)} onClickRes={()=> handleClick(false)} id={id}  response={response} username={username} img={'imagen a renderizar'} navigate={navigate} location={location} localityDef={localityDef(response)} responseImage={response && <ImageHeader image={response.img}/>} iconClose={<HiOutlineX />} sendImage={sendImage} setSendImage={setSendImage} setDefaultCover={setDefaultCover} formatImage={formatImage} setFormattedImage={setFormattedImage} defaultCover={defaultCover} contentImage={contentImage} outlineReply={<HiOutlineReply />} searchParams={searchParams} indexImage={indexImage}/></>  
-  }}
+      const renderFormatPost = ()=>{
+        //long,true,reply
+        if(location.pathname.startsWith('/post')){
+          if(long){
+          return  <ContentLg  tittle={text} contentLong={contentLong}
+          //  tittle={tittle}
+          iconClose={<HiOutlineX />}
+          />
+          }else{
+            return  <><ContentMessage   definedUserStyles={definedUserStyles} renderTextWithHashtags={renderTextWithHashtags} text={text}  lg={long} onClick={()=> handleClick(true)} onClickRes={()=> handleClick(false)}  id={id}  response={response} username={username} img={'imagen a renderizar'} navigate={navigate} location={location} localityDef={localityDef(response)} responseImage={response && <ImageHeader image={response.img}/>}  iconClose={<HiOutlineX />} sendImage={sendImage} setSendImage={setSendImage} setDefaultCover={setDefaultCover} formatImage={formatImage} setFormattedImage={setFormattedImage} defaultCover={defaultCover} contentImage={contentImage} outlineReply={<HiOutlineReply />} searchParams={searchParams} indexImage={indexImage}/></>     
+          }
+        }else{
+        return  <><ContentMessage   definedUserStyles={definedUserStyles} renderTextWithHashtags={renderTextWithHashtags} text={text}  lg={long} onClick={()=> handleClick(true)} onClickRes={()=> handleClick(false)} id={id}  response={response} username={username} img={'imagen a renderizar'} navigate={navigate} location={location} localityDef={localityDef(response)} responseImage={response && <ImageHeader image={response.img}/>} iconClose={<HiOutlineX />} sendImage={sendImage} setSendImage={setSendImage} setDefaultCover={setDefaultCover} formatImage={formatImage} setFormattedImage={setFormattedImage} defaultCover={defaultCover} contentImage={contentImage} outlineReply={<HiOutlineReply />} searchParams={searchParams} indexImage={indexImage}/></>  
+        }}
 
 
 
@@ -439,8 +437,8 @@ return (
         </div></div>
      </div>
        <OptionsMessage param={optionsMessage} render={renderOptions}
-
-setDisplayTrashMessage={setDisplayTrashMessage}
+        image={contentImage}
+        setDisplayTrashMessage={setDisplayTrashMessage}
        username={username} long={long} idPost={id} userid={userid} booleanForFollow={userid === uid.uid ? true :false}  
        thread={thread} isCitation={isCitation} isLocalidades={country}
        outlineBookmarkIcon={<HiOutlineBookmark  style={{position:'relative',top:'3px'}}/>} FiUserCheck={checkUser}

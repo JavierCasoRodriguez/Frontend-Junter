@@ -4,6 +4,7 @@ import FastLoader from '../../views/processing/FastLoader';
 import { IoMdAdd } from 'react-icons/io';
 import { useLocation,useNavigate } from 'react-router-dom';
 
+
 function TrendsContainer({localidades,isWideScreen,searchParams}){
 
     const location = useLocation();
@@ -11,27 +12,20 @@ function TrendsContainer({localidades,isWideScreen,searchParams}){
     const searchPath = location.pathname.startsWith('/search') ? true : false;
     // const queryContentPath = location.pathname.startsWith('/search/posts') ? true : false;
     const queryParams = searchParams &&   searchParams.get('q');
-
-
-    const [listTrends,setListTrends] = useState();
-    const [secondAmount ,setSecond] = useState(null);
-    const [thirdAmount ,setThird] = useState(null);
-    const [forthAmount ,setFourth] = useState(null);
-    const [fifthAmount ,setFifth] = useState(null);
-    const randomNumberForSplice = Math.floor(Math.random() * (10 - 6 + 1)) + 6;
-
-
+    const isTagList = searchParams && searchParams.get('tag_list');
+    const [listTrends,setListTrends] = useState(null); 
     const [isLoading,setLoading] = useState(true);
     const [smallTrend,setSmallTrend] = useState(false);
-    const [counter,setCounter ] = useState(1);
+
+
      useEffect(()=>{
       if(isWideScreen){
-        getTrends(setListTrends,counter,setSmallTrend);
+        getTrends(setListTrends,setSmallTrend);
       }
-      },[location.pathname]);
-//2 Trends
-const getDefaultUrl = ()=>{
-    if(!location.pathname.startsWith('/search') &&  location.pathname !== '/' && !location.pathname.startsWith('/friends') && !location.pathname.startsWith('/post')){
+      },[location.pathname,isWideScreen]);
+  // 2. Trends
+  const getDefaultUrl = ()=>{
+    if(!location.pathname.startsWith('/search') &&  location.pathname !== '/' && !location.pathname.startsWith('/friends') && !location.pathname.startsWith('/post') && !location.pathname.startsWith('/notifications')){
       const arrPath = location.pathname.split('/');
       const locality = arrPath[arrPath.length -1];
       const params = arrPath[arrPath.length -2];
@@ -40,14 +34,16 @@ const getDefaultUrl = ()=>{
     return `http://localhost:5000/trends/fetching/main`
    }
   } //añadir la ruta del trends con parámetro para el queryContent;
-   const getTrends = async (setListTrends,counter,setSmallTrend)=>{
+   const getTrends = async (setListTrends,setSmallTrend)=>{ 
     // const token = getToken();
       //la clave sería recomendar en torno a 10 y ir recortando
       //Lateral => 3 o 5;
       // Search a 10 mismos
       try {
         const url = getDefaultUrl();
-        const response = await fetch(url);
+        const response = await fetch(url,{
+          credentials:'include',
+        });
                if (!response.ok) {
                throw new Error('Error al obtener los datos');
           }
@@ -58,63 +54,46 @@ const getDefaultUrl = ()=>{
             frameTrends(result.data,setSmallTrend);
           }else{
             setListTrends([])
-          }
-
-          }   catch (error) {
+          }} catch (error) {
             console.error('Hubo un problema:', error);
           }  finally{
             setLoading(false)
           }
      }
 
-     const frameTrends = (data,setSmallTrend,)=>{
+     const frameTrends = (data,setSmallTrend)=>{
       //He puesto  un límite de 120 para empezar puede que haya que ir revisandolo
       const trends = Object.keys(data);
       const lengthNumTrends = trends.length;
-  
+      console.log('Longitud de los trends',lengthNumTrends)
       if(lengthNumTrends < 20){
+        console.log('LnegthnuMtredns es menor que 20')
         setListTrends(data);
-        setSmallTrend(false);
+        setSmallTrend(true);
       }
   else{
-  
-      portionTrend(data,lengthNumTrends,6,null,setListTrends); 
-      portionTrend(data,lengthNumTrends,4,setSecond);
-      portionTrend(data,lengthNumTrends,3,setThird);
-      portionTrend(data,lengthNumTrends,2,setFourth);
-      setFifth(data);
+    console.log('Length num trends es mayor que 20')
+      // portionTrend(data,lengthNumTrends,6,null,setListTrends); 
+      // portionTrend(data,lengthNumTrends,4,setSecond);
+      const numberTrends = Math.round(lengthNumTrends / 4);
+      const portionTrends = data.splice(0,numberTrends);
+      setListTrends(portionTrends);
+      // portionTrend(data,lengthNumTrends,3,setThird);
+      // portionTrend(data,lengthNumTrends,2,setFourth);
+      // setFifth(data);
     } 
   }
 
-  const portionTrend = (data,length,num,setObjectTrends,setListTrends) =>{
-    const index = Math.round(length / num);
-    const firstAmount = data.slice(0,index);
-    //Se podría meter el ternario pero así se entiende mejor.
-    if(num === 6){
-        setListTrends(firstAmount);
-    } else{
-        setObjectTrends(firstAmount);
-    }
-  }
+
+  console.log({
+    'lista de los trends':listTrends
+  })
+
+ 
  
 
 
-  const getMoreTrends = (setCounter,counter,setSmallTrend)=>{
-    setCounter(counter + 1);
-    setSmallTrend(true);
-    setTimeout(()=>{
-     setSmallTrend(false);
-    },3000);
-    if(counter === 1){
-     setListTrends(secondAmount)
-    } else if(counter === 2){
-     setListTrends(thirdAmount)
-    }else if(counter === 3){
-     setListTrends(forthAmount)
-    }else if(counter === 4){
-     setListTrends(fifthAmount)
-    }
- }
+
 //
 const getDefaultTrend = (path,localidades)=>{
     const defLocality = path.split('/')[2];
@@ -133,7 +112,7 @@ const getDefaultTrend = (path,localidades)=>{
 
   const defResult =  result.filter(item => item).join();
   if(!defResult || urls.includes(decodedLocality)){
-    return 'Top Trends'
+    return `Top Trends`
   }else{
     return `Trending in ${decodeURIComponent(defLocality)}`;
   }
@@ -141,11 +120,12 @@ const getDefaultTrend = (path,localidades)=>{
 
 
 
+
     return (
         <div className={searchPath ? "trends-srchq" :'trend'} >
           {/* Podría ser interesante que fuese azul el tag_list */}
         {searchPath  ? <div className={queryParams ? 'nav-trendsq query': 'nav-trendsq'}>
-            <h4>{queryParams ? `Related to ${queryParams ? '#' : ''}${decodeURIComponent(queryParams)}` :`Trends`}</h4>
+            <h4>{queryParams ? `Related to ${isTagList ? '#' : ''}${decodeURIComponent(queryParams)}` :`Trends`}</h4>
         </div> :
         <div className="nav-trends">
          
@@ -159,18 +139,15 @@ const getDefaultTrend = (path,localidades)=>{
             {isLoading ?  (
                 <FastLoader />
             ): 
-        listTrends && listTrends.splice(0,randomNumberForSplice).map((item,index) => (
-            <Trends key={index}   name={item.name} number={item.count} index={!queryParams && index} />
+        listTrends  && listTrends.map((item,index) => (
+            <Trends key={index} name={item.name} number={item.count} index={!queryParams && index} />
         ))
         }
-       {(!smallTrend && secondAmount )  && <div className="show-more-trends" 
-      //  onClick={()=> getMoreTrends(setCounter,counter,setSmallTrend)}
-      onClick={()=> navigate('/search/trends')}
-       
-       >
+       {(!smallTrend)  && <div className="show-more-trends" 
+      onClick={()=> navigate('/search/trends')}>
           <IoMdAdd />
-        </div>}
-    </ul>
+    </div>}
+  </ul>
 </div>
     )
 }

@@ -1,18 +1,17 @@
 import { useState,useContext, useEffect } from "react";
 import {ContextUid} from '../../views/SessionContext';
-import getToken from "../js/verifyToken";
 import { useNavigate,useLocation } from "react-router-dom";
 import BottomNotifBar from  '../Dashboard/BottomNotifBar';
 import { FiUserCheck } from 'react-icons/fi';
 
 
-function Seguir({username,handleCLick,booleanProfile,setFollowFromProfile,contentButtonNotifs}) {
+function Seguir({username,handleCLick,booleanProfile,setFollowFromProfile,contentButtonNotifs,setFilterFollow}) {
 
     //Hay algunas cosas aqui como el token y el navigate 
     const uid = useContext(ContextUid).uid;
     const navigate = useNavigate();
     const location = useLocation();
-    const token  = getToken(() => navigate('/auth/login'));
+    //  = getToken(() => navigate('/auth/login'));
     const [follow, setFollow] = useState(true);
     const [success,setSuccess] = useState(false);
     useEffect(()=>{
@@ -21,9 +20,8 @@ function Seguir({username,handleCLick,booleanProfile,setFollowFromProfile,conten
         }
         if(username){
             fetch(`http://localhost:5000/Profile/following/true/user/${username}`,{
-                headers: {'Authorization': `Bearer ${token}`
-            }
-            })
+                credentials:"include"
+                })
             .then(response => {
                 if(!response.ok){
                     throw new Error('Error on response');
@@ -33,6 +31,7 @@ function Seguir({username,handleCLick,booleanProfile,setFollowFromProfile,conten
             .then(data =>{
                 console.log('estos son los datos',data);
                 setFollow(data);
+                setFilterFollow(data)
                 if(booleanProfile){
                     setFollowFromProfile(true);
                 }

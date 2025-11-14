@@ -1,7 +1,7 @@
 import { useEffect,useState,useContext } from 'react';
 import Nav from '../../../views/Nav';
 import {fetchingData} from '../../js/renderMessages'
-import getToken from '../../js/verifyToken';
+// import getToken from '../../js/verifyToken';
 import { useNavigate,useLocation } from 'react-router-dom';
 import MappedPosts from '../../../views/main/MappedPosts';
 import Loader from '../../../views/processing/FastLoader';
@@ -14,7 +14,6 @@ const PostEngagements = ()=>{
     const navigate = useNavigate();
     const location = useLocation();
     const uid = useContext(ContextUid);
-
     const path = location.pathname.split('/');
     const idParentPost = path[4];
     console.log(idParentPost);
@@ -48,36 +47,36 @@ const PostEngagements = ()=>{
 }
 
 
-const Quotes = ({idParentPost,navigate,location,uid})=>{
+const Quotes = ({idParentPost,location,uid})=>{
 
   return(
 <>
-<MainComponent uid={uid} navigate={navigate} index={0}   location={location} url={`http://localhost:5000/messages/engagements/quotes/${idParentPost}`}/>
+<MainComponent uid={uid} index={0}   location={location} url={`http://localhost:5000/messages/engagements/quotes/${idParentPost}`}/>
 </>
   )
 } 
 
-const Reposts = ({location,idParentPost,navigate,uid})=>{
+const Reposts = ({location,idParentPost,uid})=>{
 
   return(
     <>
-   <MainComponent    uid={uid} index={1} location={location} navigate={navigate} url={`http://localhost:5000/messages/engagements/reposts/${idParentPost}`}/>
+   <MainComponent    uid={uid} index={1} location={location} url={`http://localhost:5000/messages/engagements/reposts/${idParentPost}`}/>
     
     </>
   )
 }
 
-const MainComponent = ({navigate,url,index,location,uid})=>{
-  const token  = getToken(() => navigate('/auth/login'));
+const MainComponent = ({url,index,location,uid})=>{
   const [loader,isLoading] = useState(true);
   const [data,setData] = useState(null);
   useEffect(()=>{
-    fetchingData(url,token,isLoading).then(data =>{
-       console.log(data);
+    fetchingData(url).then(data =>{
        if(data){
          if(data.message === 'No interactions found'){
+          isLoading(false);
           setData([]);
          }else{
+          isLoading(false);
            setData(data.result);
          }
        }

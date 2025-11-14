@@ -10,7 +10,7 @@ const ContextLocal = createContext();
 const ContextLocalitiesProvider = ({children})=>{
   const navigate = useNavigate();
   const location  = useLocation();
-      const token  = getToken(() => navigate('/auth/login'));
+      // const token  = getToken(() => navigate('/auth/login'));
     const [localidades,setLocalidades ] = useState({
         country:'',
         region:'',
@@ -19,13 +19,8 @@ const ContextLocalitiesProvider = ({children})=>{
     const [loaderLocalidades,isLoadingLocalidades] = useState(false);
   useEffect(()=>{
     // const token  = getToken(() => navigate('/auth/login'));
-    console.log('hello its me');
-        if(token){
          fetch('http://localhost:5000/config/get/localities',{
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            // 'Content-type': 'application/json'
-          },
+         credentials:'include'
         })
         .then(response => response.json())
         .then(data => {
@@ -47,7 +42,7 @@ const ContextLocalitiesProvider = ({children})=>{
         })
         .catch(err => console.error(err))
         .finally(()=> isLoadingLocalidades(true))
-      }
+      
     
       
     },[location.state]);

@@ -16,7 +16,7 @@ const MessageReply = ()=>{
     const location = useLocation();
     const navigate = useNavigate();
     const uid = useContext(ContextUid);
-    const token  = getToken(() => navigate('/auth/login'));
+    // const token  = getToken(() => navigate('/auth/login'));
     // const [user,setUser] = useState(true);
     const [inputVal,setInputVal] = useState('');
     // const [loader,isLoading ]= useState(true);
@@ -42,8 +42,8 @@ const [sendingImage,isSendingImage] = useState(false);
 
 const {data:user,isLoading} = useQuery({
     queryKey: ['repliesPosts', idParentMessage],
-    queryFn: () => fetchingData(`http://localhost:5000/messages/content/post/format/reply/${idParentMessage}?format=reply`,token),
-    enabled: !!idParentMessage && !!token, // evita correr antes de que estén listos
+    queryFn: () => fetchingData(`http://localhost:5000/messages/content/post/format/reply/${idParentMessage}?format=reply`),
+    enabled: !!idParentMessage , // evita correr antes de que estén listos
     // staleTime: 1000 * 60 * 5,
 })
 
@@ -54,7 +54,7 @@ const {data:user,isLoading} = useQuery({
     // console.log('input',input);
     // text,uid,newNumReplies,locality,params
     //con la locality y el params más adelante;
-    const idPost = generarIdMessage(16);
+    
     if(image || (text.length > 0 && text.length < 420)){
       let body;
       let headers = {};
@@ -64,7 +64,6 @@ const {data:user,isLoading} = useQuery({
           body = new FormData();
           body.append('text', text);
           body.append('uid', uid);
-          body.append('idPost', idPost);
           body.append('userIdPost',userIdPost);
           console.log('tira por aquí de manual');
           isSendingImage(true);
@@ -79,14 +78,15 @@ const {data:user,isLoading} = useQuery({
           } else {
             // Si solo hay una imagen
             console.log('va por aqui');
-            body.append("image", image);
+            const mainImage = image ? image.image : image
+            body.append("image", mainImage);
           }
          
 
 
         } else {
           // Usar JSON si no hay imagen
-          body =  JSON.stringify({text,uid,userIdPost,idPost})
+          body =  JSON.stringify({text,uid,userIdPost})
           headers['Content-Type'] = 'application/json'; // Solo necesario en JSON
         }
       // if(userData.length === 0){
@@ -106,7 +106,8 @@ const {data:user,isLoading} = useQuery({
   .then(response => response.json())
   .then(data => {
     if(data.boolean){
-      insertRelevantWords(text,idPost,data.lang);
+      insertRelevantWords(text,data.idPost,data.lang);
+     
     }
     isSendingImage(false);
     setInputVal('')

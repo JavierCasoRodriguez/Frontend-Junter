@@ -10,7 +10,7 @@ import {Notifications,CardReplyNotification,LikeNotification} from "./views/main
 import {RootNewsComponent,FriendsRoot,DefaultMainComponent} from './components/Dashboard/ContainerComponentes';
 import About from "./views/main/AboutUs";
 import DefaultProfilePosts from './components/Dashboard/UserPostsInteractions'
-import {Localidades} from "./views/main/Localidades";
+import {Localidades,EmailLocalidades} from "./views/main/Localidades";
 import RedirectToMain  from  './components/Dashboard/RedirectToUserLocality';
 import ShortMessage from './components/Dashboard/NewMessage/ShortMessage';
 import MessageReply from './components/Dashboard/MessageForm/MessageReply';
@@ -314,10 +314,11 @@ const router = createBrowserRouter([
             path: "login",
             element: <Login />,
           },
-          {
-            path: "register",
-            element: <Register />,
-          },
+        {
+          path:'register/new/user',
+          element:<Register />
+        },
+       
           {
             path: "register/complete",
             element: <Localidades />,
@@ -343,18 +344,18 @@ const router = createBrowserRouter([
 
 
   // Google Auth
-  {
-    path: "/googleAuth/providerID=true/junter&step=select-username",
-    element: <UserSetUp />,
-  },
+  // {
+  //   path: "/googleAuth/providerID=true/junter&step=select-username",
+  //   element: <UserSetUp />,
+  // },
   {
     path: "/onboarding/username",
     element: <UserSetUp />,
   },
-  {
-    path: "/auth/login/form/email",
-    element: <EmailLogin />,
-  },
+  // {
+  //   path: "/auth/login/form/email",
+  //   element: <EmailLogin />,
+  // },
   {
     path: "/auth/login/form/email/verification/code",
     element: <EmailLogin />,

@@ -2,7 +2,7 @@ import { useState,useEffect,useContext } from "react"
 import { HiGlobe,HiDotsVertical,HiLogout, HiOutlineBookmark } from "react-icons/hi";
 import {useLocation,useNavigate,Outlet,Link} from 'react-router-dom';
 import Seguir from "../../components/Dashboard/Seguir";
-import getToken from '../../components/js/verifyToken';
+// import getToken from '../../components/js/verifyToken';
 import NavbarOptionsProfile from '../../components/Dashboard/NavbarOptionsProfile';
 // import OptionMessage from "../../components/Dashboard/MessageForm/MsgOptions";
 import { ContextUid } from "../SessionContext";
@@ -44,7 +44,7 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
                 }}
               
 
-    const getUserInfoMain = async (path,username,setMainInfoUser,navigate,location,uid,token,setSeguidores,setSeguidos,setDisplayBottomBar)=>{
+    const getUserInfoMain = async (path,username,setMainInfoUser,navigate,location,uid,setSeguidores,setSeguidos,setDisplayBottomBar)=>{
         //username,estado,seguidores
         // let url;
         // if(!path){
@@ -60,8 +60,7 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
       
             try {
             const response = await fetch(url,{
-                headers: {'Authorization': `Bearer ${token}`}
-
+                credentials:'include'
             });
                  if (!response.ok) {
                  throw new Error('Error al obtener los datos');
@@ -142,7 +141,7 @@ function Profile() {
     
     const location = useLocation();
     const navigate = useNavigate(); 
-    const token  = getToken(() => navigate('/auth/login'));
+    // const token  = getToken(() => navigate('/auth/login'));
 
     // const [isLoading,setLoading] = useState(true);
     const [booleanImg,setBooleanImg] = useState(false);
@@ -161,7 +160,7 @@ function Profile() {
     const uid = objectUid.uid;
    
     useEffect(() => {
-        getUserInfoMain(renderDiffPath,usernameExtra,setMainInfoUser,navigate,location,uid,token,setSeguidores,setSeguidos,setDisplayBottomBar);
+        getUserInfoMain(renderDiffPath,usernameExtra,setMainInfoUser,navigate,location,uid,setSeguidores,setSeguidos,setDisplayBottomBar);
         // no es necesario cargar tanta información de primera mano
     }, [location.pathname]); 
 
@@ -338,10 +337,9 @@ const SettingsProfile = ()=>{
     const [displayLogOut,setDisplayLogOut] = useState(false);
     const usernameExtra =  getUsernameFromPath(location);
     const renderDiffPath = location.pathname.includes('type') ? true : false
+    const [loaderLogOut,isLoadingLogOut] = useState(0);
 
-    const deleteToken = ()=>{
-        localStorage.removeItem('jwtToken')
-        navigate('/auth/login')}
+
 
     useEffect(()=>{
      renderAboutUser(renderDiffPath,usernameExtra,setUser,setMainUser,false,setDefaultState)
@@ -421,6 +419,29 @@ const SettingsProfile = ()=>{
         .catch(err => console.error(err))
     }
 
+    const handleLogOut = ()=>{
+        isLoadingLogOut(1)
+        fetch('http://localhost:5000/Config/log/out',{
+            credentials:'include',
+            method:'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const {boolean,message} = data;
+         if(boolean){
+            navigate('/auth/login')
+         }else{
+            const alert = message ? message : 'Error loggin out'
+            alert(alert)
+         }
+        })
+
+        .finally(() =>{
+            isLoadingLogOut(2);
+        })
+
+    }
+
     return (
         <>
         <div className="settings-profile" >
@@ -454,6 +475,7 @@ const SettingsProfile = ()=>{
                 
                 }
 
+                {loaderLogOut === 1 &&  <Loader />}
 
             </div>
             <div className="setting-description"  style={{marginTop:defaultState ? '82px': '72px'}}>
@@ -478,7 +500,7 @@ const SettingsProfile = ()=>{
             {displayLogOut && <div className="log-out-alert-message">
                     <h3>Are you sure you want to close this session?</h3>
                     <div className='container-options-boolean-logout'>
-                     <span style={{backgroundColor:'lightgray',color:'white'}} onClick={()=> deleteToken()}>Yes</span>
+                     <span style={{backgroundColor:'lightgray',color:'white'}} onClick={handleLogOut}>Yes</span>
                      <span onClick={()=> setDisplayLogOut(false)}>No</span>
                     </div>
                     </div>}

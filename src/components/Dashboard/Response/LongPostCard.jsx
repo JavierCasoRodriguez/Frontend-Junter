@@ -33,9 +33,7 @@ function LongPostCard({id,username,image,state,tittle,country,
 }) {
    
 
-  const [displayTrashMessage,setDisplayTrashMessage] = useState(false);
-
-
+        const [displayTrashMessage,setDisplayTrashMessage] = useState(false);
         const [readMoreBtn,setReadMoreBtn] = useState(false);
         useEffect(()=>{
            console.log(content.length);
@@ -94,7 +92,7 @@ function LongPostCard({id,username,image,state,tittle,country,
        path={location.pathname}
        setDisplayTrashMessage={setDisplayTrashMessage}
 
-      //  booleanForFollow={userid === uid.uid ? true :false} 
+       // booleanForFollow={userid === uid.uid ? true :false} 
        outlineBookmarkIcon={<HiOutlineBookmark />} FiUserCheck={checkUser}
        //Filed y following;
        viewIcon={viewIcon} navigate={navigate}
@@ -114,7 +112,7 @@ function LongPostCard({id,username,image,state,tittle,country,
         </div>
       </div>
         {/* 3. Resto del contenido */}
-        <div className="overlay-lg">
+        <div className="overlay-lg"  >
           <h3>{renderTextWithHashtags(tittle,navigate)}</h3>
 
         </div>

@@ -1,6 +1,6 @@
 import {useLocation,useNavigate} from 'react-router-dom';
 import { useEffect,useState,useContext } from 'react';
-import getToken from '../../js/verifyToken';
+// import getToken from '../../js/verifyToken';
 import Message from '../MessageForm/Message';
 import NavOfQueryOption from '../../../views/Nav';
 import Loader from '../../../views/processing/FastLoader';
@@ -98,13 +98,11 @@ function QueryContent() {
     }
 
        const fetchData = async (url)=>{
-        const token  = getToken(() => navigate('/auth/login'));
+        // const token  = getToken(() => navigate('/auth/login'));
 
 
         try {
-            const response = await fetch(url,{
-                headers:{'Authorization': `Bearer ${token}`}
-            });
+            const response = await fetch(url);
                  if (!response.ok) {
                  throw new Error('Error al obtener los datos')
             }

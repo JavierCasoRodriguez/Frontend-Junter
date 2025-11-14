@@ -3,7 +3,6 @@ import { IoClose } from "react-icons/io5";
 import { HiOutlinePaperAirplane } from "react-icons/hi2";
 import {useState,useContext,useEffect} from 'react';
 import { ContextUid } from '../../views/SessionContext';
-// import { v4 as uuidv4 } from 'uuid';
 
 
 

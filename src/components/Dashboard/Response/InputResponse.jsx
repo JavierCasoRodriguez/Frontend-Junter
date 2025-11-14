@@ -2,17 +2,17 @@ import { useEffect,useState,useContext } from "react";
 import { ContextUid } from "../../../views/SessionContext";
 import { CiImageOn } from "react-icons/ci";
 import {fetchUserData} from '../../js/sendMessages';
-import getToken from "../../js/verifyToken";
+// import getToken from "../../js/verifyToken";
 import { useNavigate } from "react-router-dom";
 import {PickleEmticon,ContentPickleEmoticon} from '../NewMessage/PickleEmticon';
 import BottomNotifBar from "../BottomNotifBar";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import {generarIdMessage,getArtificialDate} from '../../js/messageToolsFn';
+import {getArtificialDate} from '../../js/messageToolsFn';
 
 const InputResponse  = ({setMainResponses,idParentMessage,marginCentered,width,isPickleVisible, setPickeVisible,userIdPost
 })=>{
   const navigate =  useNavigate();
-  const token  = getToken(() => navigate('/auth/login'));
+  // const token  = getToken(() => navigate('/auth/login'));
   const {uid,username,userImage} = useContext(ContextUid);
     const [inputResponse,setInputResponse] = useState(''); 
     const [loaderUserData,isLoadingFetchingUserData] = useState(true);
@@ -21,6 +21,7 @@ const InputResponse  = ({setMainResponses,idParentMessage,marginCentered,width,i
     const [placeholder,setPlaceholder] = useState('');
     const [currentEmoji,setCurrentEmoji] = useState(null)
     const indexPlaceholder = Math.floor(Math.random() * 3);
+    const [idPost,setIdPost] = useState('');
 
     const getPlaceholder = ()=>{
      if(indexPlaceholder === 0){
@@ -34,7 +35,7 @@ const InputResponse  = ({setMainResponses,idParentMessage,marginCentered,width,i
     useEffect(()=>{
         const defaultPlacehoder = getPlaceholder();
         setPlaceholder(defaultPlacehoder);
-        fetchUserData(token,setUserData,null,isLoadingFetchingUserData);
+        fetchUserData(setUserData,null,isLoadingFetchingUserData);
     },[])
     // console.log(userData);
     const setResponseHeight = (input) => {
@@ -65,14 +66,13 @@ const InputResponse  = ({setMainResponses,idParentMessage,marginCentered,width,i
 
 
   const submitResponse = (text,uid,idMessage,username,image)=>{
-      //Habría que generarlos antes que el resto de ahí
-       const idPost = generarIdMessage(16)
+      
 
     if(text.length > 0 && text.length < 420){
       // console.log('userData',userData.length);
       if(userData && !loaderUserData){
         const {state} = userData;
-    const data  = {text,uid,username,state,idPost,userIdPost};
+    const data  = {text,uid,username,state,userIdPost};
    fetch(`http://localhost:5000/messages/replies/submit/post/${idMessage}`,{
     method : 'POST',
     headers: {'Content-type':'application/json'},
@@ -80,7 +80,9 @@ const InputResponse  = ({setMainResponses,idParentMessage,marginCentered,width,i
   })
   .then(response => response.json())
   .then(data => {
-  setStatusResponse(data);
+  setStatusResponse(data.boolean);
+  console.log(data.idPost)
+   setIdPost(data.idPost)
   setTimeout(()=>{
     setInputResponse(''); 
     setStatusResponse(2);
@@ -116,7 +118,7 @@ if(statusResponse === 2 ){
       // replies:null,
       long:false,
       userid:uid,
-      time:isoDate,
+      date:isoDate,
       thread:false// no haría falta ponerlo
     },
     ...prevPosts,

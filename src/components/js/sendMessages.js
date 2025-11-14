@@ -1,11 +1,11 @@
 //importar varias funciones que se usan tanto en el long  como short message
 
-const fetchUserData  = (token,setData,localities,loader)=>{
+const fetchUserData  = (setData,localities,loader)=>{
      fetch('http://localhost:5000/messages/posts/get/user/data',{
          headers:{
-             'Content-type':'application/json',
-             'Authorization': `Bearer ${token}`
+             'Content-type':'application/json'
          },
+         credentials:'include'
      })
      .then(response => response.json())
       .then(result =>{

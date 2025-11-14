@@ -10,7 +10,7 @@ function FirstSelectImage(){
     })
     const location = useLocation();
     const navigate =  useNavigate();
-    const token  = getToken(() => navigate('/auth/login'));
+    // const token  = getToken(() => navigate('/auth/login'));
 
     const [displayError,setDisplayError] = useState(false);
 

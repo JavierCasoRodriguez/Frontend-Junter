@@ -1,15 +1,13 @@
 import { IoSearchCircleOutline,IoCloseOutline } from "react-icons/io5";
 import {useState} from 'react'
 import { useNavigate } from "react-router-dom"
-// import PersonSearch from '../../components/Dashboard/Search/TrendSearch';
-// import TrendSearch from '../../components/Dashboard/Search/PersonSearch';
 import TrendsContainer from '../../components/Dashboard/TrendsContainer';
-// import SuggestContainer from '../../components/Dashboard/SuggestContainer';
+
 
 import MainSearchComponent from '../../components/Dashboard/Search/MainSearch'
 import PostSearch from '../../components/Dashboard/Search/PostSearch';
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import getToken from '../../components/js/verifyToken';
+// import getToken from '../../components/js/verifyToken';
 import Loader from '../processing/FastLoader';
 import { IoMdGlobe } from "react-icons/io";
 function Search() {
@@ -21,7 +19,7 @@ function Search() {
     const [data,setData] = useState([]);
     const [displayInputClose,setDisplayInputClose] = useState(false);
     const [renderContent,setRenderContent] = useState(true);
-    const token  = getToken(() => navigate('/auth/login'));
+   //  const token  = getToken(() => navigate('/auth/login'));
 
 
     const handleChange = async (e)=>{
@@ -34,7 +32,7 @@ function Search() {
 
                 const url = `http://localhost:5000/search?q=${encodeURIComponent(input)}`
                 const response = await fetch(url,{
-                headers:{'Authorization': `Bearer ${token}`}
+                credentials:'include'
                 });
                      if (!response.ok) {
                      throw new Error('Error al obtener los datos');
@@ -98,7 +96,6 @@ return (
                       <MainSearchComponent query={input} icon={getIconMainSrch(3)} />
                    </div>
                    <TrendsContainer isWideScreen={true} />
-                   {/* <SuggestContainer /> */}
  
          
                 </>

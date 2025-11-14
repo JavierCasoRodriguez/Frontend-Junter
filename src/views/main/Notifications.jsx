@@ -5,7 +5,7 @@ import { useState,useEffect } from 'react';
 import { useNavigate,Link,useLocation } from 'react-router-dom';
 import FastLoader from '../../views/processing/FastLoader';
 import Seguir from '../../components/Dashboard/Seguir';
-import getToken from '../../components/js/verifyToken'; 
+// import getToken from '../../components/js/verifyToken'; 
 import {fetchingData} from '../../components/js/renderMessages';
 import ImageHeader from '../../components/Dashboard/MessageForm/ImageHeader'
 const Notifications = ()=>{
@@ -15,7 +15,6 @@ const Notifications = ()=>{
   const [activeIcon,setActiveIcon] = useState(false);
   const [existsNotification,setExistsNotifications] = useState(null);
   const [loader,isLoading] = useState(true);
-  const token  = getToken(() => navigate('/auth/login'));
   const [newNotificationsLikes,setNewNotificationsLikes] = useState(null);
   const [notificationsLikes,setNotificationsLikes] = useState(null);
   const [notificationReplies,setNotificationsReplies] = useState(null);
@@ -42,15 +41,16 @@ const Notifications = ()=>{
         }}
 
         useEffect(()=>{
-          firstCommonRender('http://localhost:5000/Notifications/interactions/main',token,isLoadingContent,setNotificationsReplies,setNewNotificationReplies,setNotificationsLikes,setNewNotificationsLikes);
+          firstCommonRender('http://localhost:5000/Notifications/interactions/main',isLoadingContent,setNotificationsReplies,setNewNotificationReplies,setNotificationsLikes,setNewNotificationsLikes);
       },[])
 
 
     useEffect(()=>{
       getOutlet();//Se debería de hacer con el outlet pero por ahora funciona;
-      fetchingData('http://localhost:5000/Notifications/exists/main/component',token,isLoading).then(data =>{
-        if(data.message === 'No new notification for this user'){
-          console.log('no new notifications');
+      fetchingData('http://localhost:5000/Notifications/exists/main/component',isLoading).then(data =>{
+        if(data.boolean){
+          const message = data.message ? data.message : 'No new nnotifications'
+          console.log(message);
         }else{
           setExistsNotifications(data.result);
           console.log('new notifications');
@@ -58,7 +58,7 @@ const Notifications = ()=>{
       });
 
 
-    },[])
+    },[location.pathname])
     // console.log('exists',existsNotification);
    
 // Se podría hacer tipo tienes un número concreto si son menos de 5 y luego 5+ ;  9+
@@ -163,11 +163,13 @@ const getPrototype = (data) => {
 };
 
 //Sirve para no tener que rescribir todo lo que es la verificación
-const firstCommonRender = (url,token,isLoading,setNotificationsLikes,setNewNotificationsLikes,setNotificationsReplies,setNewNotificationReplies)=>{
+const firstCommonRender = (url,isLoading,setNotificationsLikes,setNewNotificationsLikes,setNotificationsReplies,setNewNotificationReplies)=>{
     // url === 'http://localhost:5000/Notifications/interactions/main'
-    fetchingData(url,token).then(data => {
-        if(data === 'No notifications found'){
-          isLoading(false)  
+    fetchingData(url).then(data => {
+        if(data.message == 'No notifications found'){
+          isLoading(false);
+          const message = data.message ? data.message : 'No new nnotifications'
+          console.log(message);
           // setNotifications([]);
             // setNewNotifications([])
             return;

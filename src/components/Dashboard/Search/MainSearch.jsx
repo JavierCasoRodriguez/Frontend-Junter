@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { ContextUid } from "../../../views/SessionContext";
-import getToken from '../../js/verifyToken';
+// import getToken from '../../js/verifyToken';
 import {useContext,useEffect,useState} from 'react';
 // import { HiOutlineX } from "react-icons/hi";
 import { IoCloseOutline, IoSearchCircleOutline } from "react-icons/io5";
@@ -73,12 +73,12 @@ console.log('uid,text,type',uid,text,type);
     useEffect(()=>{
         const getHistory = async  ()=>{
 
-            const token  = getToken(() => navigate('/auth/login'));
+            // const token  = getToken(() => navigate('/auth/login'));
             const url = 'http://localhost:5000/search/get/history/node';
             try {
             const response = await fetch(url,{
-                headers:{ 'Authorization': `Bearer ${token}`}
-            });
+                credentials:"include"
+                });
                  if (!response.ok) {
                  throw new Error('Error al obtener los datos');
             }

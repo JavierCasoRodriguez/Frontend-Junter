@@ -4,7 +4,6 @@ import NavReply from '../../../views/Nav';
 import { ContextUid } from "../../../views/SessionContext";
 import Loader from "../../../views/processing/FastLoader";
 import {fetchingData} from '../../js/renderMessages'
-import getToken from "../../js/verifyToken";
 import {CardReply} from './CardReply';
 import { HiOutlineChat,HiOutlineX  } from "react-icons/hi";
 import {activateInput,insertRelevantWords} from '../../js/sendMessages';
@@ -17,7 +16,6 @@ function MessagesQuote() {
     const location = useLocation();
     const path = location.pathname.split('/');
     const navigate = useNavigate();
-    const token  = getToken(() => navigate('/auth/login'));
     const uid = useContext(ContextUid);
     const [inputVal,setInputVal] = useState('');
     // const [user,setUser] = useState(null);
@@ -37,7 +35,6 @@ const [defaultCover,setDefaultCover] = useState(false);
 const [formatImage,setFormattedImage] = useState(1);
 const [sendingImage,isSendingImage] = useState(false);
 
-// console.log('la imagen es',image);
 
     // useEffect(()=>{
     //     fetchingData(`http://localhost:5000/messages/content/post/format/reply/${idParentMessage}?format=quote`,token,isLoading).then(data =>{
@@ -50,8 +47,8 @@ const [sendingImage,isSendingImage] = useState(false);
 
        const {data:user,isLoading} = useQuery({
            queryKey: ['repliesPosts', idParentMessage],
-           queryFn: () => fetchingData(`http://localhost:5000/messages/content/post/format/reply/${idParentMessage}?format=quote`,token),
-           enabled: !!idParentMessage && !!token, // evita correr antes de que estén listos
+           queryFn: () => fetchingData(`http://localhost:5000/messages/content/post/format/reply/${idParentMessage}?format=quote`),
+           enabled: !!idParentMessage, // evita correr antes de que estén listos
            // staleTime: 1000 * 60 * 5,
        })
        const sendQuote = (url,text,locality,params,uid,userIdPost,image)=>{

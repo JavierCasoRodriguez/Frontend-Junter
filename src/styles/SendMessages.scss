@@ -63,8 +63,6 @@
         width:100%;
         position:relative;
         top:-25px;
-        // border:1rem solid black;
-  
         &.active{
            opacity:0.4;
             pointer-events: none; /* Evita que el usuario interactúe mientras carga */
@@ -76,7 +74,6 @@
             padding:7px;
             resize:none;
             border:1px solid whitesmoke;
-            // margin-bottom:30px;
             &.thread{
                 margin-bottom:10px;
             }
@@ -443,6 +440,7 @@
         overflow-y:hidden;
         overflow-x:auto;
         margin-left:60px;
+        
       &.active{
         opacity:0.4;
         pointer-events: none; /* Evita que el usuario interactúe mientras carga */
@@ -476,46 +474,9 @@
         
         }
 
-        .length-tittle{
-            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, 'sans-serif';
-            color:gray;
-            display:flex;
-            float:right;
-            font-size:11px;
-            position:relative;
-            top:-21px;
-            right:10px;
-        }
+       
 
-        .list-tags-format-long{
-            width:100%;
-            height:25px;
-            padding-left:5px;
-            font-family:'Lexend';
-            font-size:14px;
-            display:flex;
-            justify-content:space-between;
-            margin-bottom:10px;
-            // background-color: red;
-            
-            label{
-                color:rgb(0, 153, 255);
-                font-size:12px;
-                cursor:pointer;
-
-
-            }
-            svg{
-                font-size:17px;
-                color:$lightblack;
-                cursor:pointer;
-                &:hover{
-                    border-radius: 8px;
-                    background-color: whitesmoke;
-                }
-
-            }
-        }
+   
         #body-lgMsg{
             @extend #tittle-lgMsg;
             border-right:1px solid whitesmoke;
@@ -688,18 +649,7 @@
                 }
             }
 }
-.tag-lg-body{
-    @extend .tag-sh-body;
-    position:absolute;
-    margin-top:0;
-    top:40%;
-    margin-left:10px;
-    width:80%;
 
-    // .content-options-query-hashtagg{
-    // }
-    
- }
 
 
             .localites-cont-display-lg{
@@ -901,3 +851,210 @@
     //         width:85%;
     //     }
     // }
+
+
+
+    /* Contenedor principal */
+    .longpost-container {
+    max-width: 720px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.04);
+    font-family: "Georgia", serif;
+    color: #222;
+    position:relative;
+    top:-65px;
+      &.active{
+        opacity:0.4;
+        pointer-events: none; /* Evita que el usuario interactúe mientras carga */
+        }
+      
+    }
+
+         .list-tags-format-long{
+            width:100%;
+            height:25px;
+            padding-left:5px;
+            font-family:'Lexend';
+            font-size:14px;
+            display:flex;
+            justify-content:space-between;
+            // margin-bottom:10px;
+            &:hover{
+               text-decoration: underline;
+            }
+           
+
+            label{
+                color:rgb(0, 153, 255);
+                font-size:12px;
+                cursor:pointer;
+
+
+            }
+            svg{
+                font-size:17px;
+                color:$lightblack;
+                cursor:pointer;
+                &:hover{
+                    border-radius: 8px;
+                    background-color: whitesmoke;
+                }
+
+            }
+        }
+    /* Formulario */
+    .longpost-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    }
+
+    /* Título */
+    .longpost-title {
+    font-size: 19px;
+    border: none;
+    border-bottom: 2px solid whitesmoke;
+    padding: 12px 8px;
+    outline: none;
+    transition: border-color 0.2s ease;
+    font-weight: bold;
+    &::placeholder{
+        font-weight: normal;
+        color: #aaa;
+    }
+    &:focus{
+        border-color: $lightorange;
+    }
+
+    }
+    .length-tittle{ 
+         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, 'sans-serif';
+         color:gray;
+         display:flex;
+         align-self: flex-end;
+         font-size:11px;
+         position:relative;
+         top:-11px;
+         right:10px;
+     }
+
+
+
+
+
+/* Cuerpo */
+.longpost-body {
+  font-size: 15px;
+  line-height: 1.8;
+//   border: 1px solid #ddd;
+  border:1px solid transparent;
+  border-radius: 14px;
+  padding: 16px;
+  resize: vertical;
+  outline: none;
+  min-height: 300px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  &::placeholder{
+    color: #bbb;
+  }
+  &:focus{
+  border-color: $lightorange;
+  box-shadow: 0 0 5px rgba(0, 112, 243, 0.21);
+  }
+}
+
+
+
+/* Herramientas */
+.longpost-tools {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+
+
+  .tool-item {
+    background: none;
+    border: none;
+    color: #555;
+    width:22%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    // &:hover{
+    //   color: #0070f3;
+    // }
+  }
+
+}
+
+
+.localities-options-lg{
+        // position:relative;
+        // top:4px;
+        font-size:13px;
+        // font-family: 'Lexend';
+        min-width:70px;
+        height:20px; 
+        border-radius:8px;
+        background-color: #fff;
+        cursor:pointer;
+        border:none;
+        &.active{color:$orange;border:1px solid $orange}
+        &:hover{color:$orange;border:1px solid $orange}
+
+    }
+
+
+/* Botón enviar */
+.longpost-submit {
+  align-self: flex-end;
+  background: #ff9800;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    width:90px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover {
+      background: #e68900;
+    }
+}
+
+
+.content-tags{
+    width:100%;
+    height:50px;
+    display:flex;
+
+    .input-group-tags{
+        height:20%;
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+        width:100%;
+
+        textarea{
+            @extend .input-main-globalStyles;
+            height:35px;
+            width:100%;
+            border:1px solid whitesmoke;
+            resize:none;
+            padding-top:7px;
+            font-size:13px;
+          
+         
+           
+        
+        }}
+}
+
+

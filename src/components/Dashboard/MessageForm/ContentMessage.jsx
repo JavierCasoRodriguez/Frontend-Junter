@@ -54,11 +54,11 @@ function ContentMessage({text,lg,id,response,onClick,onClickRes,renderTextWithHa
           <span
             className="reply-option response"
             onClick={() =>
-              response.objectReply && navigate(`/post/${id}`)
+              response.objectReply && navigate(`/post/${response.objectReply.idPost}`)
             }
           >
             {response.objectReply &&
-              `replying to ${response.objectReply.username}`}
+              `replying to ${response.objectReply.username}, `}
           </span>
         </div>
 

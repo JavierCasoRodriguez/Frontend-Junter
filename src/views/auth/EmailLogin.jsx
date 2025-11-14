@@ -21,6 +21,26 @@ useEffect(() => {
   }
 }, [location.pathname]);
 
+useEffect(()=>{
+  fetch('http://localhost:5000/auth/signin/requirement/verify/route',{
+      credentials:"include"
+    })
+  .then(response => {
+      if(!response.ok){
+        console.error('Error on response');
+      }
+      return response.json()
+    })
+  .then(data =>{
+    const {exists} = data;
+    if(exists){
+      alert('You already login')
+      navigate('/')
+    }
+    })
+    .catch(err => console.error(err))
+},[])
+
 
 const commonFetchOtp = async (url,body) => {
   const res = await fetch(url, {
@@ -40,44 +60,33 @@ const handleFormSubmit = async (e) => {
   setMessage('');
 
   try {
-    if (interfaz) {
-      if (!email) throw new Error("Email is required");
-
-      const body = { email };
-      const data = await commonFetchOtp(
-        'http://localhost:5000/auth/signin/format/mail/compact/code',
-        body
-      );
-
-      if (data) {
-        onSendEmail?.(email);
-        setEmail(""); // limpiar email antes de pasar a OTP
-        navigate(`/auth/login/form/email/verification/code?email=${data.email}&user_id=${data.uid}`);
-      }
-    } else {
+ 
       const email = searchParams.get("email");
       const userId = searchParams.get("user_id");
 
       if (!otp) throw new Error("OTP is required");
 
       const body = { email, userId, otp };
-      const { boolean, token } = await commonFetchOtp(
+      const { boolean,auth,message } = await commonFetchOtp(
         'http://localhost:5000/auth/signin/verify-otp',
         body
       );
 
       if (boolean) {
-        if (token) {
-          localStorage.setItem("jwtToken", token);
-          navigate('/');
-        } else {
+        if(auth === 'complete'){
+          alert('El proceso ha finalizado')
+          setTimeout(() => {
+            navigate('/')
+          }, 3000);
+         }else{
           localStorage.setItem("junter_email_prov", email);
           navigate('/onboarding/username');
-        }
-      } else {
-        throw new Error("Invalid code");
-      }
-    }
+           }
+       } else{
+        alert(message)
+       }
+      
+    
   } catch (err) {
     setMessage(err.message || 'An error occurred');
   } finally {
@@ -91,7 +100,7 @@ const handleFormSubmit = async (e) => {
   return (
     <div style={styles.container}>
       {/* <span>{location.pathname.split('/')[5]}</span> */}
-      <h2 style={styles.header}>{!interfaz ? 'Enter Verification Code' : 'Continue with your email'}</h2>
+      <h2 style={styles.header}>{!interfaz ? 'Enter  Email Verification Code' : 'Continue with your email'}</h2>
       <form  onSubmit={handleFormSubmit} style={styles.form}>
         <input
           type={interfaz ? "email" :  'text'} //Más limpio con 2 inputs pero así también queda bien

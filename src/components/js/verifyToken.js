@@ -18,7 +18,7 @@
 // }
 
 export default function getToken(redirectCallback) {
-    const token = localStorage.getItem('jwtToken');
+    // const token = localStorage.getItem('jwtToken');
  
     if (!token && typeof redirectCallback === 'function') {
       redirectCallback(); // Ejecuta la función de redirección
